@@ -1,0 +1,261 @@
+<mxfile host="app.diagrams.net" modified="2025-11-27T00:00:00.000Z" agent="Claude Code" version="22.1.0">
+  <diagram name="P.1401 Validation Pipeline Flowchart" id="p1401-flowchart">
+    <mxGraphModel dx="1600" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="ITU-T P.1401 Statistical Validation Pipeline: Detailed Flowchart" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Subtitle -->
+        <mxCell id="subtitle" value="Statistical Methods for Objective Metric Performance Evaluation" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="250" y="70" width="1100" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Input Data Sources -->
+        <mxCell id="inputs-container" value="Input Data Sources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="600" height="300" as="geometry" />
+        </mxCell>
+
+        <mxCell id="input-votes" value="Subjective Votes&#xa;&#xa;Source: research-suite/p1401/data/votes/&#xa;&#xa;Format: Multiple CSVs&#xa;• p910_assessment_participant_001.csv&#xa;• p910_assessment_participant_002.csv&#xa;• ...&#xa;• p910_assessment_participant_024.csv&#xa;&#xa;Schema:&#xa;ParticipantID, VideoIndex, Filename, Rating, Timestamp, ResponseTime" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="190" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="input-metrics" value="Objective Metrics&#xa;&#xa;Source: research-suite/qualifier/*/results/&#xa;&#xa;Files:&#xa;• cover_scores.csv&#xa;• siti_metrics.csv&#xa;• tv-l1_metrics.csv&#xa;&#xa;Schema:&#xa;video_name, metric1, metric2, ...&#xa;&#xa;Example:&#xa;source1_1.mp4, -0.06, 0.87, 0.35, ..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="360" y="190" width="240" height="220" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: MOS Computation -->
+        <mxCell id="step1-container" value="Step 1: MOS Computation (ci95.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="480" width="600" height="480" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step1-load" value="Load All Participant CSVs&#xa;&#xa;Merge votes into unified DataFrame&#xa;&#xa;columns: [ParticipantID, VideoName, Rating]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="530" width="520" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step1-group" value="Group by Video&#xa;&#xa;For each unique video:&#xa;  Collect all ratings (N participants)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="520" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step1-mos" value="Compute MOS (Mean Opinion Score)&#xa;&#xa;MOS = (1/N) × Σ(ratings)&#xa;&#xa;Example:&#xa;Ratings: [5, 4, 5, 3, 4, 5, 4, 3, 5, 4, ...]&#xa;MOS = mean([...]) = 4.21" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="700" width="520" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step1-ci95" value="Compute 95% Confidence Interval&#xa;&#xa;CI95 = MOS ± (t_critical × SEM)&#xa;&#xa;Where:&#xa;• SEM = σ / sqrt(N)  [Standard Error of Mean]&#xa;• σ = sample standard deviation&#xa;• t_critical = t-distribution value (α=0.05, df=N-1)&#xa;&#xa;Example:&#xa;MOS = 4.21, SEM = 0.12, t_critical = 2.069&#xa;CI95 = 4.21 ± 0.25 → [3.96, 4.46]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="820" width="520" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step1-output" value="Output: MOS Results CSV&#xa;&#xa;results/mos/mos_results.csv&#xa;&#xa;video_name, MOS, CI95_lower, CI95_upper, N&#xa;source1_1.mp4, 4.21, 3.96, 4.46, 24&#xa;source1_2.mp4, 3.87, 3.62, 4.12, 24&#xa;source2_1.mp4, 4.56, 4.31, 4.81, 24&#xa;..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="1000" width="360" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Step 2: Metric Mapping -->
+        <mxCell id="step2-container" value="Step 2: Metric Mapping &amp; Correlation Analysis (mapping.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="720" y="140" width="840" height="1360" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-load-mos" value="Load MOS Results&#xa;&#xa;From: results/mos/mos_results.csv" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="760" y="190" width="360" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-load-metrics" value="Load Objective Metrics&#xa;&#xa;From: cover_scores.csv, siti_metrics.csv, tv-l1_metrics.csv&#xa;Merge by video_name" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="760" y="260" width="360" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-join" value="Join MOS + Metrics&#xa;&#xa;Inner join on video_name&#xa;&#xa;Result:&#xa;video_name | MOS | CI95_lower | CI95_upper | semantic | technical | aesthetic | SI | TI | ..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="760" y="350" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Polynomial Regression -->
+        <mxCell id="step2-poly-container" value="3rd-Order Polynomial Regression (ITU-T P.1401 Standard)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=1;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="480" width="760" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-poly-formula" value="For Each Metric:&#xa;&#xa;MOS_predicted = a₀ + a₁×metric + a₂×metric² + a₃×metric³&#xa;&#xa;Solve using Least Squares:&#xa;• Minimize Σ(MOS_actual - MOS_predicted)²&#xa;• Find coefficients [a₀, a₁, a₂, a₃]&#xa;&#xa;Example (COVER overall score):&#xa;MOS_pred = 2.35 + 0.87×score - 0.12×score² + 0.03×score³" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="520" width="720" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-poly-note" value="Why 3rd-order?&#xa;• ITU-T P.1401 recommendation&#xa;• Captures non-linear relationships&#xa;• Balance: flexibility vs overfitting" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="670" width="280" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Correlation Metrics -->
+        <mxCell id="step2-corr-container" value="Correlation Metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="750" width="760" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-pearson" value="Pearson Correlation Coefficient (ρ_P)&#xa;&#xa;ρ_P = cov(MOS, metric) / (σ_MOS × σ_metric)&#xa;&#xa;Measures: Linear relationship strength&#xa;Range: [-1, 1]&#xa;• +1 = perfect positive correlation&#xa;•  0 = no linear correlation&#xa;• -1 = perfect negative correlation&#xa;&#xa;Example: ρ_P(COVER, MOS) = 0.89" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="790" width="340" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-spearman" value="Spearman Correlation Coefficient (ρ_S)&#xa;&#xa;Rank-based correlation (non-parametric)&#xa;&#xa;1. Rank MOS values&#xa;2. Rank metric values&#xa;3. Compute Pearson on ranks&#xa;&#xa;Measures: Monotonic relationship&#xa;Range: [-1, 1]&#xa;• Robust to outliers&#xa;• Detects non-linear monotonic trends&#xa;&#xa;Example: ρ_S(COVER, MOS) = 0.92" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1160" y="790" width="360" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-interp" value="Interpretation (ITU-T Guidelines):&#xa;|ρ| > 0.9: Excellent&#xa;0.75 < |ρ| ≤ 0.9: Good&#xa;0.5 < |ρ| ≤ 0.75: Fair&#xa;|ρ| ≤ 0.5: Poor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="960" width="340" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Prediction Accuracy -->
+        <mxCell id="step2-accuracy-container" value="Prediction Accuracy Metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=1;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="1060" width="760" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-rmse" value="RMSE (Root Mean Squared Error)&#xa;&#xa;RMSE = sqrt((1/N) × Σ(MOS_actual - MOS_predicted)²)&#xa;&#xa;Measures: Average prediction error&#xa;Units: Same as MOS (1-5 scale)&#xa;Lower = Better&#xa;&#xa;Example: RMSE = 0.34" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="1100" width="340" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-rmse-star" value="RMSE* (Epsilon-Insensitive RMSE)&#xa;&#xa;RMSE* = sqrt((1/(N-4)) × Σ(ε_i²))&#xa;&#xa;Where:&#xa;• ε_i = max(0, |error_i| - CI95_i)&#xa;• Ignores errors within confidence interval&#xa;• N-4: degrees of freedom (3rd-order poly)&#xa;&#xa;Purpose: Accounts for subjective uncertainty&#xa;&#xa;Example: RMSE* = 0.18" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1160" y="1100" width="360" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- LOOCV -->
+        <mxCell id="step2-loocv-container" value="Leave-One-Out Cross-Validation (LOOCV)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="1290" width="760" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="step2-loocv-algo" value="For i = 1 to N videos:&#xa;  1. Remove video_i from dataset (training set = N-1 videos)&#xa;  2. Train polynomial regression on training set&#xa;  3. Predict MOS for video_i using trained model&#xa;  4. Record prediction error: e_i = MOS_actual_i - MOS_predicted_i&#xa;&#xa;Compute LOOCV RMSE:&#xa;  RMSE_LOOCV = sqrt((1/N) × Σ(e_i²))&#xa;&#xa;Purpose: Estimate generalization performance on unseen data&#xa;&#xa;Example: RMSE_LOOCV = 0.41 (slightly higher than in-sample RMSE = 0.34)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="800" y="1330" width="720" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Output Results -->
+        <mxCell id="step2-output" value="Output: Validation Results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1040" width="600" height="460" as="geometry" />
+        </mxCell>
+
+        <mxCell id="output-corr" value="correlation_matrix.csv&#xa;&#xa;metric, pearson, spearman&#xa;COVER_overall, 0.89, 0.92&#xa;COVER_semantic, 0.67, 0.71&#xa;COVER_technical, 0.82, 0.85&#xa;COVER_aesthetic, 0.73, 0.76&#xa;SI, 0.54, 0.58&#xa;TI, 0.61, 0.64&#xa;TV-L1_consistency, -0.71, -0.74&#xa;..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="80" y="1090" width="240" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="output-rmse" value="rmse_scores.csv&#xa;&#xa;metric, RMSE, RMSE_star, RMSE_LOOCV&#xa;COVER_overall, 0.34, 0.18, 0.41&#xa;COVER_semantic, 0.56, 0.42, 0.63&#xa;SI, 0.72, 0.58, 0.79&#xa;TI, 0.68, 0.51, 0.74&#xa;..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="360" y="1090" width="240" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="output-plots" value="Scatter Plots&#xa;&#xa;scatter_plots.png&#xa;&#xa;• MOS vs Metric (raw data)&#xa;• Fitted polynomial curve&#xa;• Confidence intervals&#xa;• R² values&#xa;&#xa;One plot per metric" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="1290" width="240" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="output-loocv" value="loocv_predictions.csv&#xa;&#xa;video_name, MOS_actual, MOS_predicted, error&#xa;source1_1.mp4, 4.21, 4.15, 0.06&#xa;source1_2.mp4, 3.87, 3.92, -0.05&#xa;source2_1.mp4, 4.56, 4.48, 0.08&#xa;..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="360" y="1250" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="output-summary" value="Summary Report&#xa;&#xa;Best Performing Metric:&#xa;  COVER_overall&#xa;  • Pearson: 0.89 (Excellent)&#xa;  • Spearman: 0.92 (Excellent)&#xa;  • RMSE: 0.34&#xa;  • RMSE*: 0.18&#xa;  • LOOCV RMSE: 0.41&#xa;&#xa;Conclusion:&#xa;  COVER overall score strongly predicts&#xa;  human perception (MOS) for AI-generated&#xa;  videos in this dataset." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="1390" width="520" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="arrow1" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="input-votes" target="step1-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="420" as="sourcePoint" />
+            <mxPoint x="250" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step1-load" target="step1-group">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="610" as="sourcePoint" />
+            <mxPoint x="390" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step1-group" target="step1-mos">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="690" as="sourcePoint" />
+            <mxPoint x="390" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step1-mos" target="step1-ci95">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="810" as="sourcePoint" />
+            <mxPoint x="390" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2" edge="1" parent="1" source="step1-ci95" target="step1-output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="950" as="sourcePoint" />
+            <mxPoint x="390" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" value="MOS" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="step1-output" target="step2-load-mos">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="1035" as="sourcePoint" />
+            <mxPoint x="580" y="985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" value="Metrics" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="input-metrics" target="step2-load-metrics">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="420" as="sourcePoint" />
+            <mxPoint x="530" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-load-mos" target="step2-join">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="250" as="sourcePoint" />
+            <mxPoint x="990" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow9" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-load-metrics" target="step2-join">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="340" as="sourcePoint" />
+            <mxPoint x="990" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-join" target="step2-poly-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="460" as="sourcePoint" />
+            <mxPoint x="990" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-poly-container" target="step2-corr-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1160" y="730" as="sourcePoint" />
+            <mxPoint x="1210" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow12" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-corr-container" target="step2-accuracy-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1160" y="1040" as="sourcePoint" />
+            <mxPoint x="1210" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="step2-accuracy-container" target="step2-loocv-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1160" y="1270" as="sourcePoint" />
+            <mxPoint x="1210" y="1220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow14" value="Export" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="step2-loocv-container" target="step2-output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="1370" as="sourcePoint" />
+            <mxPoint x="760" y="1320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Key Equations Box -->
+        <mxCell id="equations-box" value="Key Statistical Equations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1200" y="480" width="340" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="equations" value="MOS:&#xa;μ = (1/N) × Σxᵢ&#xa;&#xa;Standard Error:&#xa;SEM = σ / √N&#xa;&#xa;Confidence Interval:&#xa;CI₉₅ = μ ± t₀.₀₂₅,ₙ₋₁ × SEM&#xa;&#xa;Polynomial Fit:&#xa;ŷ = a₀ + a₁x + a₂x² + a₃x³&#xa;&#xa;RMSE:&#xa;√[(1/N) × Σ(yᵢ - ŷᵢ)²]&#xa;&#xa;RMSE*:&#xa;√[(1/(N-p)) × Σ max(0, |eᵢ| - CIᵢ)²]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1220" y="520" width="300" height="190" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

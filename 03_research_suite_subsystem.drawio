@@ -1,0 +1,300 @@
+<mxfile host="app.diagrams.net" modified="2025-11-27T00:00:00.000Z" agent="Claude Code" version="22.1.0">
+  <diagram name="Research Suite Subsystem" id="research-suite">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Research Suite Subsystem: Quality Assessment Tools" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Input: Video Data -->
+        <mxCell id="input-videos" value="AI-Generated Videos&#xa;&#xa;research-suite/data/source_videos/&#xa;&#xa;• source1_1.mp4&#xa;• source1_2.mp4&#xa;• source2_1.mp4&#xa;• ..." style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="240" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Qualifier Tools Container -->
+        <mxCell id="qualifier-container" value="Qualifier Tools (research-suite/qualifier/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=3;verticalAlign=top;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="1180" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- COVER Assessment Module -->
+        <mxCell id="cover-module" value="COVER Assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="180" width="340" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cover-venv" value="Python 3.9 venv&#xa;&#xa;Dependencies:&#xa;• torch 2.0.1&#xa;• torchvision 0.15.2&#xa;• transformers 4.30.2&#xa;• av (PyAV for ARM64)&#xa;• clip, timm" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="420" y="220" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cover-script" value="cover_assessment.py&#xa;&#xa;Three-branch network:&#xa;• Semantic (CLIP)&#xa;• Technical (Swin3D)&#xa;• Aesthetic (ConvNeXt)&#xa;&#xa;UnifiedFrameSampler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="580" y="220" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cover-weights" value="pretrained_weights/&#xa;COVER.pth&#xa;&#xa;250MB&#xa;(CVPR 2024)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="420" y="360" width="100" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cover-output" value="Results:&#xa;• semantic_score&#xa;• technical_score&#xa;• aesthetic_score&#xa;• overall_score&#xa;&#xa;CSV export" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="600" y="360" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- SI/TI Assessment Module -->
+        <mxCell id="siti-module" value="SI/TI Assessment (ITU-T P.910)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="180" width="340" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="siti-venv" value="Python 3.9 venv&#xa;&#xa;Dependencies:&#xa;• opencv-python&#xa;• numpy&#xa;• pandas&#xa;• matplotlib" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="800" y="220" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="siti-script" value="main.py&#xa;&#xa;ITU-R BT.601:&#xa;Y = 0.299R + 0.587G + 0.114B&#xa;&#xa;SI = stddev(Sobel(frame))&#xa;TI = stddev(Δframe)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="960" y="220" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="siti-plots" value="Visualization:&#xa;• SI/TI scatter&#xa;• Temporal plots&#xa;• Heatmaps&#xa;&#xa;PNG export" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="800" y="340" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="siti-output" value="Results CSV:&#xa;• mean_SI&#xa;• mean_TI&#xa;• std_SI&#xa;• std_TI&#xa;• max/min values" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="960" y="340" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- TV-L1 Assessment Module -->
+        <mxCell id="tvl1-module" value="TV-L1 Optical Flow Assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1160" y="180" width="340" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tvl1-venv" value="Python 3.9 venv&#xa;&#xa;Dependencies:&#xa;• opencv-python&#xa;• numpy&#xa;• pandas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1180" y="220" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tvl1-script" value="tv-l1_assessment.py&#xa;&#xa;Metrics:&#xa;• Forward-backward consistency&#xa;• Temporal warp error&#xa;• Motion variance&#xa;&#xa;Q = exp(-α × error)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1340" y="220" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tvl1-output" value="Results CSV:&#xa;• consistency_error&#xa;• warp_error&#xa;• motion_variance&#xa;• quality_score" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1230" y="320" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Custom Metrics Placeholder -->
+        <mxCell id="custom-module" value="Custom Metrics (Extensible)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1;dashed=1;dashPattern=4 4" vertex="1" parent="1">
+          <mxGeometry x="400" y="500" width="720" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="custom-note" value="Add your own quality metrics here:&#xa;• VMAF, SSIM, PSNR&#xa;• Perceptual metrics (LPIPS, FID)&#xa;• Domain-specific metrics&#xa;&#xa;Follow same structure: venv + script + CSV output" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="420" y="540" width="680" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Results Aggregation -->
+        <mxCell id="results-agg" value="Results Aggregation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="640" width="1100" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="results-dir" value="qualifier/*/results/&#xa;&#xa;• cover_assessment/results/cover_scores.csv&#xa;• si-ti-assessment/results/siti_metrics.csv&#xa;• tv-l1_assessment/results/flow_metrics.csv" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="440" y="690" width="360" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="merge-note" value="Merging Strategy:&#xa;&#xa;Join CSVs by video filename&#xa;→ Unified metrics table&#xa;→ Feed to P.1401 validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="860" y="690" width="280" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="unified-output" value="Unified Metrics CSV&#xa;&#xa;video_name | semantic | technical | aesthetic |&#xa;overall | SI | TI | consistency | warp | ..." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;fontStyle=1;align=left" vertex="1" parent="1">
+          <mxGeometry x="1190" y="690" width="290" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Subjective Testing -->
+        <mxCell id="p910-container" value="Subjective Testing (research-suite/p910/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=3;verticalAlign=top;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="880" width="600" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p910-player" value="Web Video Player&#xa;(video-player/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="400" y="940" width="520" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p910-files" value="Files:&#xa;• index.html&#xa;• script.js&#xa;• styles.css&#xa;• videos/ (symlink)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="420" y="980" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p910-features" value="Features:&#xa;• ACR 5-point scale&#xa;• Fisher-Yates shuffle&#xa;• Grey screen (2s)&#xa;• Response time tracking&#xa;• CSV export per participant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="560" y="980" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p910-output" value="p910_assessment_{id}.csv&#xa;&#xa;ParticipantID | VideoIndex |&#xa;Filename | Rating | Timestamp |&#xa;ResponseTime" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="760" y="980" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Validation Framework -->
+        <mxCell id="p1401-container" value="Validation Framework (research-suite/p1401/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;verticalAlign=top;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1020" y="880" width="520" height="460" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1401-venv" value="Python 3.9 venv&#xa;&#xa;Dependencies:&#xa;• numpy&#xa;• pandas&#xa;• scipy&#xa;• scikit-learn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1060" y="940" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ci95-script" value="ci95.py&#xa;&#xa;Compute MOS + CI95&#xa;from subjective votes&#xa;&#xa;Input: data/votes/&#xa;Output: mos_results.csv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1060" y="1060" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mapping-script" value="mapping.py&#xa;&#xa;Polynomial regression (3rd order)&#xa;MOS vs Objective Metrics&#xa;&#xa;Outputs:&#xa;• Pearson/Spearman ρ&#xa;• RMSE / RMSE*&#xa;• LOOCV results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="1060" y="1180" width="140" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1401-workflow" value="Validation Workflow:&#xa;&#xa;1. Collect subjective votes (P.910)&#xa;2. python ci95.py → MOS&#xa;3. python mapping.py --mos --metrics&#xa;4. Analyze correlation results&#xa;&#xa;Key Question:&#xa;Do objective metrics predict MOS?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="1230" y="940" width="280" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1401-output" value="P.1401 Validation Results&#xa;&#xa;results/p1401/&#xa;• correlation_matrix.csv&#xa;• rmse_scores.csv&#xa;• scatter_plots.png&#xa;• loocv_predictions.csv" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1230" y="1140" width="280" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flow Arrows -->
+        <mxCell id="arrow1" value="Videos" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="input-videos" target="cover-module">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="155" as="sourcePoint" />
+            <mxPoint x="350" y="105" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow2" value="Videos" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="input-videos" target="siti-module">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="190" as="sourcePoint" />
+            <mxPoint x="350" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" value="Videos" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="input-videos" target="tvl1-module">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="225" as="sourcePoint" />
+            <mxPoint x="350" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.167;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="cover-output" target="results-dir">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="660" y="450" as="sourcePoint" />
+            <mxPoint x="710" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="siti-output" target="results-dir">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1030" y="450" as="sourcePoint" />
+            <mxPoint x="1080" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.833;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="tvl1-output" target="results-dir">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1300" y="430" as="sourcePoint" />
+            <mxPoint x="1350" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" value="Merge" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="results-dir" target="merge-note">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="735" as="sourcePoint" />
+            <mxPoint x="860" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" value="Output" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="merge-note" target="unified-output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="735" as="sourcePoint" />
+            <mxPoint x="1200" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow9" value="Videos" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="input-videos" target="p910-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="190" as="sourcePoint" />
+            <mxPoint x="350" y="140" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="320" y="190" />
+              <mxPoint x="320" y="1020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow10" value="Votes" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="p910-output" target="p1401-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="920" y="1030" as="sourcePoint" />
+            <mxPoint x="970" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow11" value="Objective&#xa;Metrics" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="unified-output" target="p1401-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1335" y="800" as="sourcePoint" />
+            <mxPoint x="1385" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow12" value="1" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="p1401-venv" target="ci95-script">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1130" y="1050" as="sourcePoint" />
+            <mxPoint x="1180" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow13" value="2" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="ci95-script" target="mapping-script">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1130" y="1170" as="sourcePoint" />
+            <mxPoint x="1180" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow14" value="MOS" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;dashed=1;dashPattern=4 4" edge="1" parent="1" source="ci95-script" target="p1401-workflow">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1210" y="1110" as="sourcePoint" />
+            <mxPoint x="1260" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow15" value="Results" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="mapping-script" target="p1401-output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1210" y="1285" as="sourcePoint" />
+            <mxPoint x="1260" y="1235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend-box" value="Legend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="40" y="1200" width="300" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend1" value="Python venv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="60" y="1240" width="80" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend2" value="Script" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="160" y="1240" width="80" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend3" value="Data/Results" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="260" y="1240" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend4" value="Storage" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="60" y="1290" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend5" value="Data Flow" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;fontSize=9" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="1305" as="sourcePoint" />
+            <mxPoint x="240" y="1305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Notes -->
+        <mxCell id="notes" value="Key Notes:&#xa;&#xa;• All tools use isolated Python 3.9 venvs&#xa;• Activate venv before running: source venv/bin/activate&#xa;• Results auto-exported to */results/ directories&#xa;• COVER uses PyAV wrapper for ARM64 compatibility&#xa;• P.910 requires min 24 participants per video (ITU standard)&#xa;• P.1401 uses 3rd-order polynomial (N-4 DOF for RMSE*)&#xa;• Parallel processing recommended for large datasets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="300" height="200" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

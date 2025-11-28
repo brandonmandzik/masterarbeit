@@ -1,0 +1,11 @@
+Filename,Mean_CLIP_Score,Median_CLIP_Score
+source1_1.mp4,0.828146,0.830586
+source1_2.mp4,0.739299,0.736191
+source1_3.mp4,0.796258,0.812809
+source1_4.mp4,0.757132,0.760879
+source1_5.mp4,0.763300,0.763975
+source2_1.mp4,0.789957,0.791869
+source2_2.mp4,0.731873,0.727774
+source2_3.mp4,0.549147,0.549900
+source2_4.mp4,0.632432,0.631090
+source2_5.mp4,0.764689,0.774725

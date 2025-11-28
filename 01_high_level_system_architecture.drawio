@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.1">
+  <diagram name="High-Level System Architecture" id="system-arch">
+    <mxGraphModel dx="1914" dy="1346" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="phase1-container" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" value="" vertex="1">
+          <mxGeometry height="320" width="380" x="40" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="phase1-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Phase 1: Video Generation Infrastructure" vertex="1">
+          <mxGeometry height="30" width="280" x="90" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="aws-terraform" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1" value="AWS Infrastructure&#xa;(Terraform IaC)" vertex="1">
+          <mxGeometry height="60" width="140" x="80" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="gpu-instance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="EC2 GPU Instance&#xa;(g6e.4xlarge / p5.4xlarge)&#xa;L40S 48GB / H100 80GB" vertex="1">
+          <mxGeometry height="70" width="140" x="260" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="wan22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="&lt;p class=&quot;p1&quot; style=&quot;margin: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-size-adjust: none; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-variant-emoji: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: &amp;quot;Helvetica Neue&amp;quot;; color: rgb(0, 0, 0);&quot;&gt;Wan2.2-Fun-A14B-Control&lt;/p&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Docker Container" vertex="1">
+          <mxGeometry height="90" width="140" x="80" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="hunyuan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="&lt;p class=&quot;p1&quot; style=&quot;margin: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-size-adjust: none; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-variant-emoji: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: &amp;quot;Helvetica Neue&amp;quot;; color: rgb(0, 0, 0);&quot;&gt;Wan-AI/Wan2.1-VACE-14B&lt;/p&gt;&lt;p class=&quot;p1&quot; style=&quot;margin: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-size-adjust: none; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-variant-emoji: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: &amp;quot;Helvetica Neue&amp;quot;; color: rgb(0, 0, 0);&quot;&gt;&lt;br&gt;&lt;/p&gt;Docker Container" vertex="1">
+          <mxGeometry height="90" width="140" x="250" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="7e8ScaQNJ79OGsid4DXx-9" edge="1" parent="1" source="generated-videos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="phase2-container">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7e8ScaQNJ79OGsid4DXx-10" edge="1" parent="1" source="generated-videos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="phase3-container">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generated-videos" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" value="Stylized Videos&lt;br&gt;(MP4, H.264, 960x544p)" vertex="1">
+          <mxGeometry height="80" width="160" x="140" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3" edge="1" parent="1" source="wan22" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;strokeWidth=2;fontSize=10;entryX=0.255;entryY=0.964;entryDx=0;entryDy=0;entryPerimeter=0;" target="generated-videos" value="Text / Image&amp;nbsp;&lt;br&gt;Prompts">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="150" y="540" as="sourcePoint" />
+            <mxPoint x="170" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow4" edge="1" parent="1" source="hunyuan" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;fontSize=10;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.855;entryY=1;entryDx=0;entryDy=-4.35;entryPerimeter=0;" target="generated-videos" value="Text&amp;nbsp;&lt;div&gt;/ Image&lt;br&gt;Prompts&lt;/div&gt;">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="310" y="430" as="sourcePoint" />
+            <mxPoint x="270" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="phase2-container" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" value="" vertex="1">
+          <mxGeometry height="440" width="460" x="480" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="phase2-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Phase 2: Objective Quality Assessment (Qualifier)" vertex="1">
+          <mxGeometry height="30" width="420" x="540" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="cover-metric" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="COVER Assessment&#xa;(CVPR 2024)&#xa;&#xa;• Semantic (CLIP ViT-L/14)&#xa;• Technical (Swin3D)&#xa;• Aesthetic (ConvNeXt)" vertex="1">
+          <mxGeometry height="100" width="180" x="520" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="siti-metric" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="SI/TI Assessment&#xa;(ITU-T P.910)&#xa;&#xa;• Spatial Info (Sobel)&#xa;• Temporal Info (Frame Δ)" vertex="1">
+          <mxGeometry height="100" width="180" x="730" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="tvl1-metric" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="TV-L1 Optical Flow&#xa;&#xa;• Forward-backward consistency&#xa;• Temporal warp error&#xa;• Motion variance" vertex="1">
+          <mxGeometry height="90" width="180" x="520" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="custom-metrics" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;dashed=1;dashPattern=4 4;align=center;" value="LPIPS / SIMM&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;• Style/Content Similiarity&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="730" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="objective-results" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" value="Objective Metrics Results&lt;br&gt;(CSV: COVER, SI/TI, TV-L1 scores, LPIPS / SIMM)" vertex="1">
+          <mxGeometry height="80" width="230" x="590" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="phase3-container" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" value="" vertex="1">
+          <mxGeometry height="440" width="340" x="1000" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="phase3-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Phase 3: Subjective Testing (P.910)" vertex="1">
+          <mxGeometry height="30" width="300" x="1040" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="web-player" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" value="&lt;p&gt;&lt;/p&gt;&lt;h3&gt;Web Video Player&lt;/h3&gt;&lt;p&gt;• ACR 5-point scale&lt;br&gt;• Fisher-Yates randomization&lt;br&gt;• Grey screen intervals&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="100" width="260" x="1040" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="participants" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" value="Human Participants&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="40" x="1150" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="subjective-results" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" value="Subjective Votes&#xa;(CSV: Participant, Video, Rating)" vertex="1">
+          <mxGeometry height="60" width="210" x="1065" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow11" edge="1" parent="1" source="web-player" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;fontSize=10" target="participants" value="Watch Videos">
+          <mxGeometry height="50" relative="1" width="50" x="-0.3333" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1170" y="290" as="sourcePoint" />
+            <mxPoint x="1220" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="phase4-container" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" value="" vertex="1">
+          <mxGeometry height="280" width="750" x="330" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="phase4-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Phase 4: Statistical Validation (P.1401)" vertex="1">
+          <mxGeometry height="30" width="320" x="400" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="mos-computation" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="MOS Computation&lt;br&gt;&lt;br&gt;- Mean Opinion Score + CI95" vertex="1">
+          <mxGeometry height="80" width="180" x="870" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="metric-mapping" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" value="&lt;h3&gt;Metric Mapping&lt;/h3&gt;&lt;br&gt;• 3rd-order polynomial&lt;br&gt;• Pearson/Spearman ρ&lt;br&gt;• RMSE / RMSE*&lt;br&gt;• LOOCV" vertex="1">
+          <mxGeometry height="120" width="180" x="620" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="validation-results" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" value="Validation Results&#xa;&#xa;Correlation coefficients&#xa;Prediction accuracy&#xa;Statistical significance" vertex="1">
+          <mxGeometry height="100" width="180" x="350" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow15" edge="1" parent="1" source="mos-computation" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" target="metric-mapping" value="MOS">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="850" y="810" as="sourcePoint" />
+            <mxPoint x="900" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow16" edge="1" parent="1" source="objective-results" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" target="metric-mapping" value="Objective&#xa;Metrics">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="705" y="530" as="sourcePoint" />
+            <mxPoint x="755" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow17" edge="1" parent="1" source="metric-mapping" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;labelBackgroundColor=none;" target="validation-results" value="Correlation&#xa;Analysis">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="610" y="830" as="sourcePoint" />
+            <mxPoint x="660" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7e8ScaQNJ79OGsid4DXx-5" edge="1" parent="1" source="subjective-results" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.588;entryY=0.042;entryDx=0;entryDy=0;entryPerimeter=0;" target="mos-computation">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="970" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

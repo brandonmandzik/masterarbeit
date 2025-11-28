@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "study": {
+    "name": "Video Quality Assessment",
+    "description": "ITU-T P.910 compliant video quality study",
+    "greyScreenDuration": 2000,
+    "testVideo": {
+      "enabled": true,
+      "filename": "test.mp4"
+    }
+  },
+  "videos": {
+    "directory": "./videos/"
+  },
+  "export": {
+    "filenamePattern": "p910_assessment_{participantId}.csv",
+    "includeMetadata": true
+  }
+}

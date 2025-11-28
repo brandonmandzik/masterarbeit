@@ -1,0 +1,235 @@
+================================================================================
+SI/TI ASSESSMENT REPORT (ITU-T P.910)
+================================================================================
+
+Video: source1_1.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    65.74
+    Mean:       59.30
+    Median:     59.93
+    Std Dev:    3.78
+
+  Temporal Information (TI):
+    Maximum:    40.89
+    Mean:       22.74
+    Median:     21.79
+    Std Dev:    7.04
+
+================================================================================
+
+Video: source1_2.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    94.71
+    Mean:       87.33
+    Median:     90.47
+    Std Dev:    7.00
+
+  Temporal Information (TI):
+    Maximum:    27.52
+    Mean:       8.22
+    Median:     7.73
+    Std Dev:    4.25
+
+================================================================================
+
+Video: source1_3.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    101.33
+    Mean:       67.94
+    Median:     57.89
+    Std Dev:    16.03
+
+  Temporal Information (TI):
+    Maximum:    38.77
+    Mean:       18.03
+    Median:     15.60
+    Std Dev:    8.25
+
+================================================================================
+
+Video: source1_4.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    73.26
+    Mean:       44.54
+    Median:     44.03
+    Std Dev:    11.41
+
+  Temporal Information (TI):
+    Maximum:    58.53
+    Mean:       39.96
+    Median:     39.34
+    Std Dev:    8.27
+
+================================================================================
+
+Video: source1_5.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    76.98
+    Mean:       69.15
+    Median:     70.34
+    Std Dev:    4.68
+
+  Temporal Information (TI):
+    Maximum:    46.11
+    Mean:       32.03
+    Median:     32.83
+    Std Dev:    5.44
+
+================================================================================
+
+Video: source2_1.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    75.01
+    Mean:       67.44
+    Median:     67.48
+    Std Dev:    4.42
+
+  Temporal Information (TI):
+    Maximum:    46.03
+    Mean:       23.28
+    Median:     21.46
+    Std Dev:    8.90
+
+================================================================================
+
+Video: source2_2.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    136.51
+    Mean:       121.72
+    Median:     121.00
+    Std Dev:    4.77
+
+  Temporal Information (TI):
+    Maximum:    19.12
+    Mean:       10.16
+    Median:     8.15
+    Std Dev:    4.05
+
+================================================================================
+
+Video: source2_3.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    116.75
+    Mean:       113.25
+    Median:     113.98
+    Std Dev:    2.23
+
+  Temporal Information (TI):
+    Maximum:    8.75
+    Mean:       7.27
+    Median:     7.31
+    Std Dev:    0.54
+
+================================================================================
+
+Video: source2_4.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    121.04
+    Mean:       70.37
+    Median:     65.39
+    Std Dev:    18.04
+
+  Temporal Information (TI):
+    Maximum:    85.43
+    Mean:       58.47
+    Median:     57.60
+    Std Dev:    12.27
+
+================================================================================
+
+Video: source2_5.mp4
+--------------------------------------------------------------------------------
+  Resolution: 960x544
+  Frame Rate: 24.00 fps
+  Total Frames: 121
+  Duration: 5.04 seconds
+
+  Spatial Information (SI):
+    Maximum:    73.30
+    Mean:       65.80
+    Median:     65.63
+    Std Dev:    3.57
+
+  Temporal Information (TI):
+    Maximum:    46.60
+    Mean:       31.50
+    Median:     32.38
+    Std Dev:    6.52
+
+================================================================================
+
+Video: test.mp4
+--------------------------------------------------------------------------------
+  Resolution: 1280x720
+  Frame Rate: 23.98 fps
+  Total Frames: 115
+  Duration: 4.80 seconds
+
+  Spatial Information (SI):
+    Maximum:    79.36
+    Mean:       67.95
+    Median:     69.47
+    Std Dev:    5.66
+
+  Temporal Information (TI):
+    Maximum:    50.02
+    Mean:       28.85
+    Median:     29.68
+    Std Dev:    6.09
+
+================================================================================
+

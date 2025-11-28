@@ -1,0 +1,329 @@
+<mxfile host="app.diagrams.net" modified="2025-11-27T00:00:00.000Z" agent="Claude Code" version="22.1.0">
+  <diagram name="COVER Assessment Detailed Flowchart" id="cover-flowchart">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="COVER Assessment: Detailed Processing Flowchart" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Subtitle -->
+        <mxCell id="subtitle" value="Three-Branch Neural Network for Video Quality Assessment (CVPR 2024)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="400" y="70" width="800" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="Start: cover_assessment.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="680" y="140" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Input Video -->
+        <mxCell id="input-video" value="Input: Video File&#xa;(MP4, H.264)" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="230" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Video Decoding -->
+        <mxCell id="video-decode" value="Video Decoding&#xa;(PyAV / decord)&#xa;&#xa;Extract raw frames" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="320" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- UnifiedFrameSampler -->
+        <mxCell id="frame-sampler" value="UnifiedFrameSampler&#xa;&#xa;Temporal fragment sampling&#xa;Uniform distribution across timeline" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="440" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Branch Split -->
+        <mxCell id="branch-split" value="Split into 3 Branches" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="700" y="560" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Semantic Branch Container -->
+        <mxCell id="semantic-container" value="Semantic Branch (Content Understanding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="720" width="380" height="480" as="geometry" />
+        </mxCell>
+
+        <mxCell id="semantic-sample" value="Sample 20 Frames&#xa;(Uniformly across full video)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="120" y="770" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="semantic-resize" value="Resize to 512×512&#xa;(CLIP input size)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="120" y="840" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="semantic-clip" value="CLIP ViT-L/14 Encoder&#xa;&#xa;Vision Transformer (Large)&#xa;14×14 patch size&#xa;&#xa;Output: 768-dim features per frame" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="120" y="910" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="semantic-pool" value="Temporal Pooling&#xa;(Mean across 20 frames)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="120" y="1040" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="semantic-head" value="Regression Head (MLP)&#xa;&#xa;768 → 256 → 1&#xa;&#xa;Output: semantic_score (unbounded)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="120" y="1110" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Technical Branch Container -->
+        <mxCell id="technical-container" value="Technical Branch (Compression Artifacts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;verticalAlign=top;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="720" width="380" height="480" as="geometry" />
+        </mxCell>
+
+        <mxCell id="technical-sample" value="Sample 40 Frames&#xa;(Uniformly across full video)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="560" y="770" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="technical-grid" value="Divide into 7×7 Grid&#xa;(49 spatial regions)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="560" y="840" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="technical-patches" value="Extract 32×32 Patches&#xa;per grid cell&#xa;&#xa;Total: 49 patches × 40 frames" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="560" y="910" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="technical-swin" value="Swin Transformer 3D&#xa;&#xa;Hierarchical attention&#xa;Spatio-temporal modeling&#xa;&#xa;Output: 1024-dim features" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="560" y="1000" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="technical-head" value="Regression Head (MLP)&#xa;&#xa;1024 → 512 → 1&#xa;&#xa;Output: technical_score (unbounded)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="560" y="1130" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Aesthetic Branch Container -->
+        <mxCell id="aesthetic-container" value="Aesthetic Branch (Visual Appeal)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;verticalAlign=top;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="960" y="720" width="380" height="480" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aesthetic-sample" value="Sample 40 Frames&#xa;(Uniformly across full video)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1000" y="770" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aesthetic-resize" value="Resize to 224×224&#xa;(ConvNeXt input size)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1000" y="840" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aesthetic-convnext" value="ConvNeXt Tiny&#xa;&#xa;Modern CNN architecture&#xa;Depthwise convolutions&#xa;&#xa;Output: 768-dim features per frame" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1000" y="910" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aesthetic-pool" value="Temporal Pooling&#xa;(Mean across 40 frames)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1000" y="1040" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aesthetic-head" value="Regression Head (MLP)&#xa;&#xa;768 → 256 → 1&#xa;&#xa;Output: aesthetic_score (unbounded)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1000" y="1110" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Score Fusion -->
+        <mxCell id="score-fusion" value="Score Fusion&#xa;&#xa;overall_score = semantic + technical + aesthetic&#xa;&#xa;(Simple additive aggregation)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="600" y="1260" width="400" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Output -->
+        <mxCell id="output" value="Output: Quality Scores&#xa;&#xa;{&#xa;  &quot;semantic_score&quot;: -0.06,&#xa;  &quot;technical_score&quot;: 0.87,&#xa;  &quot;aesthetic_score&quot;: 0.35,&#xa;  &quot;overall_score&quot;: 1.16&#xa;}" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="600" y="1380" width="400" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- CSV Export -->
+        <mxCell id="csv-export" value="Export to CSV&#xa;&#xa;video_name,semantic,technical,aesthetic,overall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1100" y="1420" width="340" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="arrow1" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="start" target="input-video">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="200" as="sourcePoint" />
+            <mxPoint x="850" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="input-video" target="video-decode">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="290" as="sourcePoint" />
+            <mxPoint x="850" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="video-decode" target="frame-sampler">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="410" as="sourcePoint" />
+            <mxPoint x="850" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="frame-sampler" target="branch-split">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="530" as="sourcePoint" />
+            <mxPoint x="850" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Semantic Branch Flow -->
+        <mxCell id="arrow5" value="Semantic" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="branch-split" target="semantic-sample">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="610" as="sourcePoint" />
+            <mxPoint x="750" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="semantic-sample" target="semantic-resize">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="830" as="sourcePoint" />
+            <mxPoint x="320" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="semantic-resize" target="semantic-clip">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="900" as="sourcePoint" />
+            <mxPoint x="320" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="semantic-clip" target="semantic-pool">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="1030" as="sourcePoint" />
+            <mxPoint x="320" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow9" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="semantic-pool" target="semantic-head">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="1100" as="sourcePoint" />
+            <mxPoint x="320" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Technical Branch Flow -->
+        <mxCell id="arrow10" value="Technical" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="branch-split" target="technical-sample">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="670" as="sourcePoint" />
+            <mxPoint x="850" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="technical-sample" target="technical-grid">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="830" as="sourcePoint" />
+            <mxPoint x="760" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow12" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="technical-grid" target="technical-patches">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="900" as="sourcePoint" />
+            <mxPoint x="760" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="technical-patches" target="technical-swin">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="990" as="sourcePoint" />
+            <mxPoint x="760" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow14" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="technical-swin" target="technical-head">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="1120" as="sourcePoint" />
+            <mxPoint x="760" y="1070" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Aesthetic Branch Flow -->
+        <mxCell id="arrow15" value="Aesthetic" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="branch-split" target="aesthetic-sample">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="900" y="610" as="sourcePoint" />
+            <mxPoint x="950" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow16" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="aesthetic-sample" target="aesthetic-resize">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="830" as="sourcePoint" />
+            <mxPoint x="1200" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow17" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="aesthetic-resize" target="aesthetic-convnext">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="900" as="sourcePoint" />
+            <mxPoint x="1200" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="aesthetic-convnext" target="aesthetic-pool">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="1030" as="sourcePoint" />
+            <mxPoint x="1200" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow19" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="aesthetic-pool" target="aesthetic-head">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="1100" as="sourcePoint" />
+            <mxPoint x="1200" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Fusion Flow -->
+        <mxCell id="arrow20" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="semantic-head" target="score-fusion">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="1190" as="sourcePoint" />
+            <mxPoint x="320" y="1140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow21" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="technical-head" target="score-fusion">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="1210" as="sourcePoint" />
+            <mxPoint x="760" y="1160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow22" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="aesthetic-head" target="score-fusion">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="1190" as="sourcePoint" />
+            <mxPoint x="1200" y="1140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow23" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2" edge="1" parent="1" source="score-fusion" target="output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="1350" as="sourcePoint" />
+            <mxPoint x="850" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow24" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="output" target="csv-export">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1010" y="1450" as="sourcePoint" />
+            <mxPoint x="1060" y="1400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Model Weights -->
+        <mxCell id="weights-note" value="Pretrained Weights&#xa;&#xa;pretrained_weights/COVER.pth&#xa;(250MB)&#xa;&#xa;Trained on large-scale&#xa;video quality dataset" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1380" y="720" width="180" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Performance Notes -->
+        <mxCell id="perf-note" value="Performance Benchmarks&#xa;&#xa;NVIDIA A100: ~79ms/video&#xa;Apple M1/M2 CPU: ~8-12s/video&#xa;&#xa;Memory: ~4GB VRAM (GPU)&#xa;&#xa;ARM64: Uses PyAV wrapper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="1380" y="900" width="180" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Key Notes -->
+        <mxCell id="key-notes" value="Key Implementation Details&#xa;&#xa;• Scores are unbounded (not 0-100 scale)&#xa;• Negative scores are normal&#xa;• Relative ranking matters most&#xa;• All 3 branches process entire video&#xa;• No snippet-based analysis&#xa;• UnifiedFrameSampler ensures temporal coverage&#xa;• Simple additive fusion (no weights)&#xa;• 100% identical to official COVER repo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="1380" y="1100" width="180" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Score Interpretation -->
+        <mxCell id="score-interp" value="Score Interpretation&#xa;&#xa;Example:&#xa;semantic = -0.06 (below avg content)&#xa;technical = 0.87 (high quality encoding)&#xa;aesthetic = 0.35 (average appeal)&#xa;overall = 1.16 (sum of all)&#xa;&#xa;Higher overall = Better quality&#xa;Compare within same dataset only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="40" y="1260" width="200" height="200" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,35 @@
+services:
+  wan22:
+    # Image tag used for both build and pull modes
+    # MODE=build: builds from Dockerfile with this tag
+    # MODE=pull: pulls this tag from registry
+    image: ${DOCKER_IMAGE:-ghcr.io/your-org/wan22-t2v:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wan22-inference
+    init: true
+    ipc: host
+    uts: host
+    network_mode: host
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    gpus: all
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    stdin_open: true
+    tty: true
+    volumes:
+      - /opt/outputs:/workspace/wan2.2/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

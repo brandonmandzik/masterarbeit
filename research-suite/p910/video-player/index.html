@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITU-T P.910 Video Quality Assessment</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎬</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="content-box">
+                <h1>Video Quality Assessment Study</h1>
+                <p>Welcome to this video quality assessment experiment.</p>
+                <p><strong>Instructions:</strong></p>
+                <ul>
+                    <li>You will watch short video clips</li>
+                    <li>After each video, please rate its aesthetics</li>
+                    <li>Rate based on your overall viewing experience</li>
+                    <li>There are no right or wrong answers</li>
+                    <li>Videos will play automatically without audio</li>
+                </ul>
+                <p>Please enter your participant ID to begin:</p>
+                <input type="text" id="participant-id" placeholder="Participant ID" required>
+                <button id="start-btn" class="btn-primary">Start Assessment</button>
+            </div>
+        </div>
+
+        <!-- Test Instructions Screen -->
+        <div id="test-instructions-screen" class="screen">
+            <div class="content-box">
+                <h1>Test Video</h1>
+                <p>Before the actual assessment, you will watch a test video to familiarize yourself with the interface.</p>
+                <p><strong>What to expect:</strong></p>
+                <ul>
+                    <li>A grey screen will appear for 2 seconds</li>
+                    <li>The test video will play automatically</li>
+                    <li>Another grey screen will appear after the video</li>
+                    <li>You will be asked to rate the video aesthetics</li>
+                    <li>This test rating will not be saved</li>
+                </ul>
+                <p>When you're ready, click the button below to begin the test video.</p>
+                <button id="start-test-video-btn" class="btn-primary">Start Test Video</button>
+            </div>
+        </div>
+
+        <!-- Video Presentation Screen -->
+        <div id="video-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-text">Video <span id="current-video">0</span> of <span id="total-videos">0</span></div>
+                <div class="progress-indicator">
+                    <div id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <video id="video-player" muted playsinline></video>
+                <div id="grey-screen" class="grey-screen"></div>
+                <div id="loading-indicator" class="loading">Loading video...</div>
+            </div>
+
+            <div id="video-message" class="message">
+                Please wait for the video to start...
+            </div>
+        </div>
+
+        <!-- Rating Screen -->
+        <div id="rating-screen" class="screen">
+            <div class="content-box">
+                <h2>Please rate the quality of the video you just watched</h2>
+                <p class="rating-instruction">How would you rate the overall video quality?</p>
+
+                <div class="rating-scale">
+                    <button class="rating-btn" data-rating="5">
+                        <span class="rating-number">5</span>
+                        <span class="rating-label">Excellent</span>
+                    </button>
+                    <button class="rating-btn" data-rating="4">
+                        <span class="rating-number">4</span>
+                        <span class="rating-label">Good</span>
+                    </button>
+                    <button class="rating-btn" data-rating="3">
+                        <span class="rating-number">3</span>
+                        <span class="rating-label">Fair</span>
+                    </button>
+                    <button class="rating-btn" data-rating="2">
+                        <span class="rating-number">2</span>
+                        <span class="rating-label">Poor</span>
+                    </button>
+                    <button class="rating-btn" data-rating="1">
+                        <span class="rating-number">1</span>
+                        <span class="rating-label">Bad</span>
+                    </button>
+                </div>
+
+                <p class="rating-note">Click on a rating to continue</p>
+            </div>
+        </div>
+
+        <!-- Test Confirmation Modal -->
+        <div id="test-confirmation-modal" class="modal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h2>Test Video Complete</h2>
+                <p>You have completed the test video and are now familiar with the interface.</p>
+                <p class="modal-question">Are you ready to begin the actual assessment?</p>
+                <div class="modal-buttons">
+                    <button id="test-confirm-yes" class="btn-primary">
+                        Yes, I'm Ready
+                    </button>
+                    <button id="test-confirm-no" class="btn-secondary">
+                        No, Repeat Test Video
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Screen -->
+        <div id="completion-screen" class="screen">
+            <div class="content-box">
+                <h1>Assessment Complete</h1>
+                <p>Thank you for participating in this video quality assessment study!</p>
+                <p>Your responses have been recorded.</p>
+
+                <div class="results-info">
+                    <p><strong>Session Information:</strong></p>
+                    <p>Participant ID: <span id="final-participant-id"></span></p>
+                    <p>Videos Rated: <span id="final-video-count"></span></p>
+                    <p>Completion Time: <span id="completion-time"></span></p>
+                </div>
+
+                <button id="download-btn" class="btn-primary">Download Results (CSV)</button>
+                <button id="restart-btn" class="btn-secondary">Start New Session</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

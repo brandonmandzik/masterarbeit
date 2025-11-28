@@ -1,0 +1,374 @@
+# ============================================================================
+# Video Quality Assessment Research Project - .gitignore
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# Foreign Repositories (cloned third-party repos)
+# -----------------------------------------------------------------------------
+# COVER repository (cloned dependency)
+research-suite/qualifier/cover_assessment/src/cover_repo/
+
+# NOTE: Wan2.2 and HunyuanVideo repos are necessary and tracked
+# Only their weights/checkpoints are ignored (see Model Weights section)
+
+# Any other third-party repos
+**/third_party/
+**/external/
+
+# -----------------------------------------------------------------------------
+# Model Weights & Checkpoints (large binary files)
+# -----------------------------------------------------------------------------
+# COVER pretrained weights
+research-suite/qualifier/cover_assessment/pretrained_weights/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.bin
+
+# Wan2.2 model checkpoints (126GB+)
+infrastructure/wan22/wan2.2/checkpoints/
+infrastructure/wan22/checkpoints/
+
+# HunyuanVideo model weights
+infrastructure/hunyuanvideo/HunyuanVideo/ckpts/
+infrastructure/hunyuanvideo/HunyuanVideo/hunyuan-video-t2v-720p/
+infrastructure/hunyuanvideo/ckpts/
+
+# Generic checkpoint directories
+**/models/*.pth
+**/models/*.pt
+**/weights/
+
+# HuggingFace cache
+**/.cache/huggingface/
+**/huggingface_models/
+**/.cache/
+
+# -----------------------------------------------------------------------------
+# Video Files & Datasets
+# -----------------------------------------------------------------------------
+# Source videos (AI-generated, can be large)
+research-suite/data/source_videos/*.mp4
+research-suite/data/source_videos/*.avi
+research-suite/data/source_videos/*.mov
+research-suite/data/source_videos/*.mkv
+research-suite/data/source_videos/*.webm
+
+# Video outputs from generation
+infrastructure/wan22/outputs/
+infrastructure/hunyuanvideo/outputs/
+**/output_videos/
+**/generated_videos/
+
+# -----------------------------------------------------------------------------
+# Python Virtual Environments
+# -----------------------------------------------------------------------------
+venv/
+env/
+ENV/
+.venv/
+*.virtualenv
+.Python
+
+# Specific venvs in project
+research-suite/qualifier/cover_assessment/venv/
+research-suite/qualifier/si-ti-assessment/venv/
+research-suite/qualifier/tv-l1_assessment/venv/
+research-suite/p1401/venv/
+research-suite/p910/venv/
+
+# -----------------------------------------------------------------------------
+# Python Generated Files
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# -----------------------------------------------------------------------------
+# Results & Output Files
+# -----------------------------------------------------------------------------
+# Assessment results (comment out if you want to track these)
+research-suite/qualifier/cover_assessment/results/
+research-suite/qualifier/si-ti-assessment/results/
+research-suite/qualifier/tv-l1_assessment/results/
+research-suite/p1401/results/
+research-suite/p910/results/
+
+# Logs and temporary outputs
+*.log
+*.out
+*.err
+logs/
+*.csv.tmp
+
+# Plots and visualizations
+*.png
+*.jpg
+*.jpeg
+*.svg
+!docs/**/*.png
+!docs/**/*.jpg
+
+# -----------------------------------------------------------------------------
+# Terraform State & Infrastructure
+# -----------------------------------------------------------------------------
+infrastructure/terraform/.terraform/
+infrastructure/terraform/.terraform.lock.hcl
+infrastructure/terraform/terraform.tfstate
+infrastructure/terraform/terraform.tfstate.backup
+infrastructure/terraform/*.tfvars
+infrastructure/terraform/.terraform.tfstate.lock.info
+*.tfplan
+
+# -----------------------------------------------------------------------------
+# Docker & Container Files
+# -----------------------------------------------------------------------------
+# Docker volumes and build artifacts
+**/docker-volumes/
+**/.dockerignore.bak
+docker-compose.override.yml
+
+# Container logs
+**/container_logs/
+
+# -----------------------------------------------------------------------------
+# AWS & Cloud Credentials
+# -----------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+aws-credentials.json
+credentials.json
+service-account.json
+
+# AWS CLI cache
+.aws/
+
+# -----------------------------------------------------------------------------
+# macOS Specific
+# -----------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# -----------------------------------------------------------------------------
+# Linux Specific
+# -----------------------------------------------------------------------------
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# -----------------------------------------------------------------------------
+# Windows Specific
+# -----------------------------------------------------------------------------
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# -----------------------------------------------------------------------------
+# IDE & Editor Files
+# -----------------------------------------------------------------------------
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# -----------------------------------------------------------------------------
+# Testing & Coverage
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+nosetests.xml
+
+# -----------------------------------------------------------------------------
+# Documentation Build Files
+# -----------------------------------------------------------------------------
+docs/_build/
+docs/_static/
+docs/_templates/
+site/
+
+# -----------------------------------------------------------------------------
+# Temporary & Cache Files
+# -----------------------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~.nib
+*.cache
+
+# -----------------------------------------------------------------------------
+# Database Files
+# -----------------------------------------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+
+# -----------------------------------------------------------------------------
+# Compressed Archives (if accidentally included)
+# -----------------------------------------------------------------------------
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# -----------------------------------------------------------------------------
+# P.910 Subjective Testing Data
+# -----------------------------------------------------------------------------
+# Symlink to videos (recreated locally)
+research-suite/p910/video-player/videos
+
+# Participant responses (comment out if you want to track)
+research-suite/p910/data/votes/*.csv
+
+# -----------------------------------------------------------------------------
+# Miscellaneous
+# -----------------------------------------------------------------------------
+# Profiling data
+*.prof
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Pytype
+.pytype/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# -----------------------------------------------------------------------------
+# Keep Important Files
+# -----------------------------------------------------------------------------
+# Explicitly keep certain files even if they match patterns above
+!.gitkeep
+!README.md
+!CLAUDE.md
+!requirements.txt
+!**/requirements.txt
+!setup.py
+!pyproject.toml
+
+# Keep small test videos for validation
+!research-suite/data/tests_videos/
+!research-suite/data/tests_videos/*.mp4
+
+# Keep documentation images
+!docs/
+!**/docs/**/*.png
+!**/docs/**/*.jpg

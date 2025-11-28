@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-11-26T00:00:00.000Z" agent="Claude Code" version="22.0.0">
+  <diagram name="Low-Level Component Interaction" id="low-level-component">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- generate.py -->
+        <mxCell id="A2" value="generate.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Argument Parser -->
+        <mxCell id="B2" value="Argument Parser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Task Type (Decision) -->
+        <mxCell id="C2" value="Task Type" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="360" y="30" width="120" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- T2V Model Loader -->
+        <mxCell id="D2" value="T2V Model Loader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="520" y="20" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- I2V Model Loader -->
+        <mxCell id="E2" value="I2V Model Loader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="520" y="100" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Checkpoint Reader -->
+        <mxCell id="F2" value="Checkpoint Reader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="680" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 27B Parameter Model -->
+        <mxCell id="G2" value="27B Parameter Model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="840" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- MoE Expert Selector -->
+        <mxCell id="H2" value="MoE Expert Selector" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Noise Level (Decision) -->
+        <mxCell id="I2" value="Noise Level" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="120" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- High-Noise Expert: 14B -->
+        <mxCell id="J2" value="High-Noise Expert: 14B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Low-Noise Expert: 14B -->
+        <mxCell id="K2" value="Low-Noise Expert: 14B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="240" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Diffusion Denoiser -->
+        <mxCell id="L2" value="Diffusion Denoiser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="380" y="190" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Latent Space -->
+        <mxCell id="M2" value="Latent Space" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="540" y="190" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Wan2.2-VAE Decoder -->
+        <mxCell id="N2" value="Wan2.2-VAE Decoder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="700" y="190" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Raw Video Frames -->
+        <mxCell id="O2" value="Raw Video Frames" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="860" y="190" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- File Writer -->
+        <mxCell id="P2" value="File Writer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="190" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- outputs/ Directory -->
+        <mxCell id="Q2" value="outputs/ Directory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="290" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="edge-A2B2" edge="1" parent="1" source="A2" target="B2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-B2C2" edge="1" parent="1" source="B2" target="C2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-C2D2" value="t2v-A14B" edge="1" parent="1" source="C2" target="D2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-C2E2" value="i2v-A14B" edge="1" parent="1" source="C2" target="E2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-D2F2" edge="1" parent="1" source="D2" target="F2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-E2F2" edge="1" parent="1" source="E2" target="F2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-F2G2" edge="1" parent="1" source="F2" target="G2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-G2H2" edge="1" parent="1" source="G2" target="H2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-H2I2" edge="1" parent="1" source="H2" target="I2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-I2J2" value="High" edge="1" parent="1" source="I2" target="J2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-I2K2" value="Low" edge="1" parent="1" source="I2" target="K2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-J2L2" edge="1" parent="1" source="J2" target="L2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-K2L2" edge="1" parent="1" source="K2" target="L2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-L2M2" edge="1" parent="1" source="L2" target="M2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-M2N2" edge="1" parent="1" source="M2" target="N2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-N2O2" value="16x16x4 compression" edge="1" parent="1" source="N2" target="O2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-O2P2" edge="1" parent="1" source="O2" target="P2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-P2Q2" edge="1" parent="1" source="P2" target="Q2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,233 @@
+{
+  "source1_1.mp4": {
+    "video_info": {
+      "filename": "source1_1.mp4",
+      "path": "../../data/result_videos/source1_1.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 65.73612327242219,
+      "si_mean": 59.303393184001,
+      "si_median": 59.934663958743734,
+      "si_std": 3.7776276855646453,
+      "ti_max": 40.887286847361935,
+      "ti_mean": 22.739384623533443,
+      "ti_median": 21.787837949286768,
+      "ti_std": 7.037061280552523
+    }
+  },
+  "source1_2.mp4": {
+    "video_info": {
+      "filename": "source1_2.mp4",
+      "path": "../../data/result_videos/source1_2.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 94.71448975710038,
+      "si_mean": 87.33245296900074,
+      "si_median": 90.46868479429077,
+      "si_std": 6.997707129281615,
+      "ti_max": 27.51873500096308,
+      "ti_mean": 8.224286461387244,
+      "ti_median": 7.730979994403228,
+      "ti_std": 4.248235519891745
+    }
+  },
+  "source1_3.mp4": {
+    "video_info": {
+      "filename": "source1_3.mp4",
+      "path": "../../data/result_videos/source1_3.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 101.33332785476006,
+      "si_mean": 67.93614045964983,
+      "si_median": 57.88927777069377,
+      "si_std": 16.032952763947453,
+      "ti_max": 38.774661177721256,
+      "ti_mean": 18.032166058667705,
+      "ti_median": 15.603966562951749,
+      "ti_std": 8.247703108467965
+    }
+  },
+  "source1_4.mp4": {
+    "video_info": {
+      "filename": "source1_4.mp4",
+      "path": "../../data/result_videos/source1_4.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 73.25668939000172,
+      "si_mean": 44.544702699480744,
+      "si_median": 44.02693391512971,
+      "si_std": 11.410409209673436,
+      "ti_max": 58.53045676183328,
+      "ti_mean": 39.95977701536568,
+      "ti_median": 39.335745784834764,
+      "ti_std": 8.267439530347064
+    }
+  },
+  "source1_5.mp4": {
+    "video_info": {
+      "filename": "source1_5.mp4",
+      "path": "../../data/result_videos/source1_5.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 76.98077150744645,
+      "si_mean": 69.14831062311617,
+      "si_median": 70.34272874177428,
+      "si_std": 4.680679267390463,
+      "ti_max": 46.105758226436905,
+      "ti_mean": 32.0254509468662,
+      "ti_median": 32.82956236475201,
+      "ti_std": 5.441779768372766
+    }
+  },
+  "source2_1.mp4": {
+    "video_info": {
+      "filename": "source2_1.mp4",
+      "path": "../../data/result_videos/source2_1.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 75.00531808545598,
+      "si_mean": 67.44342380979656,
+      "si_median": 67.4790194687801,
+      "si_std": 4.417461307867594,
+      "ti_max": 46.03123884589053,
+      "ti_mean": 23.283271877039326,
+      "ti_median": 21.462001520564417,
+      "ti_std": 8.900451684078009
+    }
+  },
+  "source2_2.mp4": {
+    "video_info": {
+      "filename": "source2_2.mp4",
+      "path": "../../data/result_videos/source2_2.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 136.5104319941174,
+      "si_mean": 121.72213243368219,
+      "si_median": 120.9968932312451,
+      "si_std": 4.766698142595139,
+      "ti_max": 19.118826820580104,
+      "ti_mean": 10.161442063663966,
+      "ti_median": 8.151163466935154,
+      "ti_std": 4.04886987286426
+    }
+  },
+  "source2_3.mp4": {
+    "video_info": {
+      "filename": "source2_3.mp4",
+      "path": "../../data/result_videos/source2_3.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 116.74938974174994,
+      "si_mean": 113.24902817557876,
+      "si_median": 113.98070737011166,
+      "si_std": 2.2274793561310195,
+      "ti_max": 8.75390609165673,
+      "ti_mean": 7.274938804384633,
+      "ti_median": 7.308265792185988,
+      "ti_std": 0.5397893686536668
+    }
+  },
+  "source2_4.mp4": {
+    "video_info": {
+      "filename": "source2_4.mp4",
+      "path": "../../data/result_videos/source2_4.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 121.04289836182075,
+      "si_mean": 70.36683676990914,
+      "si_median": 65.38626824268209,
+      "si_std": 18.038079380720333,
+      "ti_max": 85.42658927119795,
+      "ti_mean": 58.467074042863246,
+      "ti_median": 57.59666726087329,
+      "ti_std": 12.267621332513666
+    }
+  },
+  "source2_5.mp4": {
+    "video_info": {
+      "filename": "source2_5.mp4",
+      "path": "../../data/result_videos/source2_5.mp4",
+      "fps": 24.0,
+      "total_frames": 121,
+      "width": 960,
+      "height": 544,
+      "duration_sec": 5.041666666666667
+    },
+    "statistics": {
+      "si_max": 73.30025558379752,
+      "si_mean": 65.80413874085401,
+      "si_median": 65.62966245766009,
+      "si_std": 3.5726562214489936,
+      "ti_max": 46.59899401247995,
+      "ti_mean": 31.498178260170445,
+      "ti_median": 32.37717243892749,
+      "ti_std": 6.5211523706980365
+    }
+  },
+  "test.mp4": {
+    "video_info": {
+      "filename": "test.mp4",
+      "path": "../../data/result_videos/test.mp4",
+      "fps": 23.976023976023978,
+      "total_frames": 115,
+      "width": 1280,
+      "height": 720,
+      "duration_sec": 4.796458333333333
+    },
+    "statistics": {
+      "si_max": 79.35898249189873,
+      "si_mean": 67.95178261095097,
+      "si_median": 69.46889894696594,
+      "si_std": 5.65695548628606,
+      "ti_max": 50.01922416787275,
+      "ti_mean": 28.845468673432304,
+      "ti_median": 29.68325985091182,
+      "ti_std": 6.086343767429864
+    }
+  }
+}

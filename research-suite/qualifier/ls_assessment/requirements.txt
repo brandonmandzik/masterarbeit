@@ -1,0 +1,7 @@
+lpips
+opencv-python
+scikit-image
+torch
+torchvision
+Pillow
+numpy

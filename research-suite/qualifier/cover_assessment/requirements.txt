@@ -1,0 +1,11 @@
+# Extend cover_repo requirements
+-r src/cover_repo/requirements.txt
+
+# Additional dependencies for cover_assessment.py
+pyyaml>=6.0.0
+pyiqa>=0.1.14  # Required by COVER models but missing from cover_repo requirements
+
+# Override specific versions for compatibility
+numpy>=1.26.0,<2.0.0  # Updated version
+scipy>=1.13.0  # Updated version
+tqdm>=4.67.0  # Updated version

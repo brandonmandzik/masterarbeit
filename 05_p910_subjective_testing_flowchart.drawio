@@ -1,0 +1,322 @@
+<mxfile host="app.diagrams.net" modified="2025-11-27T00:00:00.000Z" agent="Claude Code" version="22.1.0">
+  <diagram name="P.910 Subjective Testing Flowchart" id="p910-flowchart">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="ITU-T P.910 Subjective Video Quality Testing: Detailed Flowchart" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1000" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Subtitle -->
+        <mxCell id="subtitle" value="ACR (Absolute Category Rating) 5-Point Scale Methodology" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="300" y="70" width="1000" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Setup Phase -->
+        <mxCell id="setup-container" value="Setup Phase (Pre-Test)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="460" height="400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="setup-videos" value="Prepare Video Files&#xa;&#xa;• Copy AI-generated videos to:&#xa;  research-suite/data/source_videos/&#xa;&#xa;• Ensure H.264 MP4 format&#xa;• Standardize resolution (720p/1280p)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="190" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="setup-symlink" value="Create Symlink&#xa;&#xa;cd research-suite/p910/video-player&#xa;ln -s ../../data/source_videos videos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="80" y="310" width="380" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="setup-server" value="Start Web Server&#xa;&#xa;python3 -m http.server 8000&#xa;&#xa;Access: http://localhost:8000" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="380" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="setup-participants" value="Recruit Participants&#xa;&#xa;ITU-T P.910 Requirements:&#xa;• Min 24 subjects per video&#xa;• Non-expert viewers&#xa;• Normal/corrected vision&#xa;• Controlled viewing environment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="80" y="500" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Testing Phase -->
+        <mxCell id="testing-container" value="Testing Phase (Per Participant)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="560" y="140" width="500" height="1100" as="geometry" />
+        </mxCell>
+
+        <!-- Participant Start -->
+        <mxCell id="participant-start" value="Participant Opens Web Player" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="630" y="190" width="360" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Participant ID -->
+        <mxCell id="participant-id" value="Enter Participant ID&#xa;&#xa;Unique identifier for session tracking" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="630" y="270" width="360" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Instructions Screen -->
+        <mxCell id="instructions" value="Display Instructions&#xa;&#xa;&quot;You will watch a series of videos.&#xa;After each video, rate the quality on a scale of 1-5:&#xa;&#xa;5 = Excellent&#xa;4 = Good&#xa;3 = Fair&#xa;2 = Poor&#xa;1 = Bad&#xa;&#xa;Rate based on overall perceived quality.&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="360" width="360" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Video Randomization -->
+        <mxCell id="randomize" value="Randomize Video Order&#xa;&#xa;Fisher-Yates Shuffle Algorithm&#xa;&#xa;• Prevents order bias&#xa;• Different order per participant&#xa;• Ensures statistical independence" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="550" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Video Loop Start -->
+        <mxCell id="video-loop-start" value="For Each Video in Randomized List" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="680" y="680" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Grey Screen Before -->
+        <mxCell id="grey-before" value="Display Grey Screen (Before)&#xa;&#xa;50% Grey (#808080)&#xa;Duration: 2 seconds&#xa;&#xa;Purpose: Visual reset" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="790" width="360" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Play Video -->
+        <mxCell id="play-video" value="Play Video&#xa;&#xa;• Fullscreen mode&#xa;• Native resolution&#xa;• Controls disabled during playback&#xa;• Record start timestamp" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="900" width="360" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Grey Screen After -->
+        <mxCell id="grey-after" value="Display Grey Screen (After)&#xa;&#xa;50% Grey (#808080)&#xa;Duration: 2 seconds&#xa;&#xa;Purpose: Isolate judgment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="1010" width="360" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Rating Interface -->
+        <mxCell id="rating-interface" value="Display Rating Interface&#xa;&#xa;ACR 5-Point Scale:&#xa;&#xa;[1] Bad   [2] Poor   [3] Fair   [4] Good   [5] Excellent&#xa;&#xa;• Large clickable buttons&#xa;• Clear visual feedback&#xa;• Cannot skip (forced rating)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="1120" width="360" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Record Vote -->
+        <mxCell id="record-vote" value="Record Vote + Metadata&#xa;&#xa;Capture:&#xa;• Participant ID&#xa;• Video index (in randomized order)&#xa;• Video filename&#xa;• Rating (1-5)&#xa;• Timestamp (ISO 8601)&#xa;• Response time (ms)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="630" y="1270" width="360" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- More Videos? -->
+        <mxCell id="more-videos" value="More Videos?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="710" y="1420" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Session Complete -->
+        <mxCell id="session-complete" value="Session Complete&#xa;&#xa;Display:&#xa;&quot;Thank you for participating!&quot;&#xa;&#xa;Auto-download CSV results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="630" y="1530" width="360" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data Export Phase -->
+        <mxCell id="export-container" value="Data Export Phase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;verticalAlign=top;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1120" y="140" width="440" height="500" as="geometry" />
+        </mxCell>
+
+        <mxCell id="export-format" value="CSV Export Format&#xa;&#xa;p910_assessment_{participant_id}.csv" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1160" y="190" width="360" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="export-schema" value="CSV Schema:&#xa;&#xa;ParticipantID,VideoIndex,Filename,Rating,Timestamp,ResponseTime&#xa;participant_001,1,source1_1.mp4,4,2025-11-27T14:32:10Z,3420&#xa;participant_001,2,source2_3.mp4,5,2025-11-27T14:33:45Z,2890&#xa;participant_001,3,source1_2.mp4,3,2025-11-27T14:35:12Z,4120&#xa;..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1160" y="270" width="360" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="export-storage" value="Store Results&#xa;&#xa;Location:&#xa;research-suite/p910/data/votes/&#xa;&#xa;File naming:&#xa;p910_assessment_{participant_id}.csv" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="1160" y="400" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="export-aggregate" value="Aggregate All Participants&#xa;&#xa;After collecting 24+ participants:&#xa;&#xa;Merge all CSVs into single dataset&#xa;→ Feed to P.1401 ci95.py for MOS computation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left" vertex="1" parent="1">
+          <mxGeometry x="1160" y="520" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ITU-T Requirements -->
+        <mxCell id="itu-requirements" value="ITU-T P.910 Requirements Checklist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1120" y="680" width="440" height="380" as="geometry" />
+        </mxCell>
+
+        <mxCell id="req-list" value="✓ ACR 5-point scale (1=Bad, 5=Excellent)&#xa;✓ Min 24 subjects per video&#xa;✓ Grey screen intervals (2s before/after)&#xa;✓ Video randomization (Fisher-Yates)&#xa;✓ Forced rating (cannot skip)&#xa;✓ Response time tracking&#xa;✓ Controlled viewing environment&#xa;✓ Non-expert participants&#xa;✓ Normal/corrected vision&#xa;✓ Isolated judgment (no comparisons)&#xa;✓ Metadata collection (timestamp, ID)&#xa;✓ CSV export for statistical analysis&#xa;&#xa;Compliance: FULL&#xa;&#xa;Reference: ITU-T Rec. P.910 (10/2023)&#xa;Section 5: ACR methodology" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;fontSize=10;align=left;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="1140" y="720" width="400" height="320" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="arrow1" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="setup-videos" target="setup-symlink">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="300" as="sourcePoint" />
+            <mxPoint x="320" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="setup-symlink" target="setup-server">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="390" as="sourcePoint" />
+            <mxPoint x="320" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" value="Ready" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="setup-server" target="participant-start">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="440" as="sourcePoint" />
+            <mxPoint x="520" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="participant-start" target="participant-id">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="250" as="sourcePoint" />
+            <mxPoint x="860" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="participant-id" target="instructions">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="340" as="sourcePoint" />
+            <mxPoint x="860" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="instructions" target="randomize">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="530" as="sourcePoint" />
+            <mxPoint x="860" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="randomize" target="video-loop-start">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="660" as="sourcePoint" />
+            <mxPoint x="860" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" value="Yes" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="video-loop-start" target="grey-before">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="770" as="sourcePoint" />
+            <mxPoint x="860" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow9" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="grey-before" target="play-video">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="880" as="sourcePoint" />
+            <mxPoint x="860" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="play-video" target="grey-after">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="990" as="sourcePoint" />
+            <mxPoint x="860" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="grey-after" target="rating-interface">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="1100" as="sourcePoint" />
+            <mxPoint x="860" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow12" value="User clicks rating" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="rating-interface" target="record-vote">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="1250" as="sourcePoint" />
+            <mxPoint x="860" y="1200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="record-vote" target="more-videos">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="1400" as="sourcePoint" />
+            <mxPoint x="860" y="1350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow14" value="Yes" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="more-videos" target="video-loop-start">
+          <mxGeometry x="-0.7" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="1460" as="sourcePoint" />
+            <mxPoint x="650" y="1410" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="1460" />
+              <mxPoint x="600" y="720" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow15" value="No" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10" edge="1" parent="1" source="more-videos" target="session-complete">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="1510" as="sourcePoint" />
+            <mxPoint x="860" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow16" value="Auto-download" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;fontSize=10;edgeStyle=orthogonalEdgeStyle" edge="1" parent="1" source="session-complete" target="export-format">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1000" y="1570" as="sourcePoint" />
+            <mxPoint x="1050" y="1520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow17" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="export-format" target="export-schema">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="260" as="sourcePoint" />
+            <mxPoint x="1390" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="export-schema" target="export-storage">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="390" as="sourcePoint" />
+            <mxPoint x="1390" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow19" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2" edge="1" parent="1" source="export-storage" target="export-aggregate">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="510" as="sourcePoint" />
+            <mxPoint x="1390" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- UI Mockup -->
+        <mxCell id="ui-mockup" value="Rating Interface Mockup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;verticalAlign=top;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="460" height="380" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-video" value="[Video Player - Fullscreen]&#xa;&#xa;Currently Playing:&#xa;source1_1.mp4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#ffffff;fontSize=10;fontColor=#ffffff;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="730" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-prompt" value="Please rate the quality of this video:" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="850" width="380" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-btn1" value="1&#xa;Bad" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="900" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-btn2" value="2&#xa;Poor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="155" y="900" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-btn3" value="3&#xa;Fair" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="900" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-btn4" value="4&#xa;Good" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="305" y="900" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-btn5" value="5&#xa;Excellent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="900" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-progress" value="Progress: Video 3 of 12" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="80" y="980" width="380" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ui-timer" value="Response Time: 3.2s" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="80" y="1010" width="380" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Notes -->
+        <mxCell id="notes" value="Implementation Notes&#xa;&#xa;Technology Stack:&#xa;• HTML5 + JavaScript (vanilla)&#xa;• No backend (client-side only)&#xa;• CSS3 for styling&#xa;• LocalStorage for session data&#xa;&#xa;Key Features:&#xa;• Responsive design&#xa;• Cross-browser compatible&#xa;• Keyboard shortcuts (1-5 keys)&#xa;• Accessibility support&#xa;• Mobile-friendly (tablet+)&#xa;&#xa;File Structure:&#xa;• index.html (UI)&#xa;• script.js (logic)&#xa;• styles.css (design)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;align=left;verticalAlign=top" vertex="1" parent="1">
+          <mxGeometry x="40" y="1100" width="460" height="300" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
