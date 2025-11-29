@@ -135,10 +135,10 @@ logs/
 *.csv.tmp
 
 # Plots and visualizations
-*.png
-*.jpg
-*.jpeg
-*.svg
+# *.png
+# *.jpg
+# *.jpeg
+# *.svg
 !docs/**/*.png
 !docs/**/*.jpg
 
