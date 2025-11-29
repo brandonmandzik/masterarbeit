@@ -1,0 +1,11 @@
+ParticipantID,VideoIndex,Filename,Rating,Timestamp,ResponseTime_seconds
+Karim,1,source2_4.mp4,3,2025-11-28T14:21:18.773Z,29.65
+Karim,2,source1_3.mp4,4,2025-11-28T14:21:57.631Z,35.38
+Karim,3,source1_2.mp4,4,2025-11-28T14:22:09.839Z,8.94
+Karim,4,source2_1.mp4,5,2025-11-28T14:22:21.531Z,7.94
+Karim,5,source1_4.mp4,2,2025-11-28T14:22:36.481Z,11.43
+Karim,6,source2_5.mp4,4,2025-11-28T14:22:53.918Z,14.13
+Karim,7,source1_5.mp4,4,2025-11-28T14:23:05.110Z,7.88
+Karim,8,source2_2.mp4,3,2025-11-28T14:23:16.902Z,8.10
+Karim,9,source1_1.mp4,2,2025-11-28T14:23:31.760Z,11.11
+Karim,10,source2_3.mp4,3,2025-11-28T14:23:53.822Z,18.62

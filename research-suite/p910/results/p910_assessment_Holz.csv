@@ -1,0 +1,11 @@
+ParticipantID,VideoIndex,Filename,Rating,Timestamp,ResponseTime_seconds
+Holzlowski,1,source1_5.mp4,2,2025-11-28T14:25:12.872Z,10.25
+Holzlowski,2,source1_3.mp4,3,2025-11-28T14:25:24.553Z,8.78
+Holzlowski,3,source2_4.mp4,1,2025-11-28T14:25:38.283Z,10.66
+Holzlowski,4,source1_2.mp4,3,2025-11-28T14:25:50.292Z,9.00
+Holzlowski,5,source2_1.mp4,3,2025-11-28T14:26:08.294Z,15.04
+Holzlowski,6,source2_2.mp4,3,2025-11-28T14:26:28.415Z,16.99
+Holzlowski,7,source2_3.mp4,4,2025-11-28T14:26:39.232Z,7.78
+Holzlowski,8,source1_1.mp4,3,2025-11-28T14:26:50.786Z,8.50
+Holzlowski,9,source2_5.mp4,3,2025-11-28T14:27:02.899Z,9.04
+Holzlowski,10,source1_4.mp4,1,2025-11-28T14:27:14.612Z,8.66

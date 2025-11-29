@@ -121,11 +121,11 @@ ipython_config.py
 # Results & Output Files
 # -----------------------------------------------------------------------------
 # Assessment results (comment out if you want to track these)
-research-suite/qualifier/cover_assessment/results/
-research-suite/qualifier/si-ti-assessment/results/
-research-suite/qualifier/tv-l1_assessment/results/
-research-suite/p1401/results/
-research-suite/p910/results/
+# research-suite/qualifier/cover_assessment/results/
+# research-suite/qualifier/si-ti-assessment/results/
+# research-suite/qualifier/tv-l1_assessment/results/
+# research-suite/p1401/results/
+# research-suite/p910/results/
 
 # Logs and temporary outputs
 *.log

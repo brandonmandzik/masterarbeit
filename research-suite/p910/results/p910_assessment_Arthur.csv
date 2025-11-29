@@ -1,0 +1,11 @@
+ParticipantID,VideoIndex,Filename,Rating,Timestamp,ResponseTime_seconds
+HoneyBee,1,source2_4.mp4,3,2025-11-28T14:12:58.381Z,9.48
+HoneyBee,2,source1_1.mp4,3,2025-11-28T14:13:10.038Z,8.56
+HoneyBee,3,source2_1.mp4,2,2025-11-28T14:13:21.020Z,8.02
+HoneyBee,4,source2_2.mp4,2,2025-11-28T14:13:31.943Z,7.84
+HoneyBee,5,source1_3.mp4,2,2025-11-28T14:13:42.710Z,7.82
+HoneyBee,6,source2_5.mp4,3,2025-11-28T14:13:53.707Z,7.95
+HoneyBee,7,source2_3.mp4,3,2025-11-28T14:14:04.745Z,7.90
+HoneyBee,8,source1_4.mp4,1,2025-11-28T14:14:15.771Z,7.95
+HoneyBee,9,source1_5.mp4,1,2025-11-28T14:14:26.796Z,7.89
+HoneyBee,10,source1_2.mp4,1,2025-11-28T14:14:37.716Z,7.74
