@@ -229,12 +229,12 @@ project/
 
 ### 🎨 Quality Metrics
 
-**COVER** (CVPR 2024): 3-branch ensemble. CLIP ViT-L/14 (semantic, 20f) + Swin3D (technical, 40f) + ConvNeXt (aesthetic, 40f). Unbounded scores (negative normal)
-**CLIP**: `cosine_similarity(CLIP_text(prompt), CLIP_image(frame))`. Text-Video / Image-Video / Video-Video semantic alignment. Limitation: frame-wise interpretation, no motion understanding. 
-**SI-TI** (ITU-T P.910): `SI = stddev(Sobel(Y))`, `TI = stddev(Y_n - Y_{n-1})` where `Y = 0.299R + 0.587G + 0.114B`. Scene complexity/motion. 
-**LPIPS**: AlexNet features + learned weights. Range [0,∞), lower = similar. Trained on human perceptual judgments. Frame-by-frame vs reference. 
-**SSIM**: `SSIM = l(x,y) × c(x,y) × s(x,y)` (luminance × contrast × structure). Range [0,1], 1 = identical. HVS-aligned structural similarity. 
-**TV-L1**: DualTVL1 optical flow (Total Variation + L1 norm). Metrics: forward-backward error, warp error, motion magnitude, Q-transforms `exp(-α × error)`. Detects temporal drift/jitter. 
+**COVER**: (CVPR 2024): 3-branch ensemble. CLIP ViT-L/14 (semantic, 20f) + Swin3D (technical, 40f) + ConvNeXt (aesthetic, 40f). Unbounded scores (negative normal) <br>
+**CLIP**: `cosine_similarity(CLIP_text(prompt), CLIP_image(frame))`. Text-Video / Image-Video / Video-Video semantic alignment. Limitation: frame-wise interpretation, no motion understanding. <br>
+**SI-TI** (ITU-T P.910): `SI = stddev(Sobel(Y))`, `TI = stddev(Y_n - Y_{n-1})` where `Y = 0.299R + 0.587G + 0.114B`. Scene complexity/motion. <br>
+**LPIPS**: AlexNet features + learned weights. Range [0,∞), lower = similar. Trained on human perceptual judgments. Frame-by-frame vs reference. <br>
+**SSIM**: `SSIM = l(x,y) × c(x,y) × s(x,y)` (luminance × contrast × structure). Range [0,1], 1 = identical. HVS-aligned structural similarity. <br>
+**TV-L1**: DualTVL1 optical flow (Total Variation + L1 norm). Metrics: forward-backward error, warp error, motion magnitude, Q-transforms `exp(-α × error)`. Detects temporal drift/jitter. <br>
 
 ---
 
