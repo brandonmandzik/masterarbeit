@@ -1,5 +1,4 @@
 # CLAUDE.md
-
 Developer guide for Video Quality Assessment Research. Evaluates AI videos via 6 objective metrics (COVER, CLIP, SI-TI, LPIPS, SSIM, TV-L1), P.910 subjective testing, P.1401 validation.
 
 ---
@@ -28,49 +27,56 @@ project/
    │  ├─ tv-l1_assessment/
    │  └─ lpips-ssim_assessment/ 
    │
-   ├─ p910/video-player/          # 👥 Web UI
-   └─ p1401/src/                  # 📊 ci95.py, mapping.py
+   ├── p910/                       # 👥 Subjective testing
+   │   ├── video-player/           # Web UI (randomization)
+   │   └── results/                # p910_assessment_{ID}.csv
+   │
+   └── p1401/                      # 📊 Statistical validation
+       ├── src/                    # ci95.py, mapping.py
+       └── results/                # MOS, P.1401 analysis, plots
 ```
+
 
 ---
 
 ## ⚡ Quick Commands
 
 ### 🔬 Objective Metrics
-```bash
-# COVER (NR, multi-dimensional neural)
-cd research-suite/qualifier/cover_assessment && source venv/bin/activate
-python src/cover_assessment.py --input-dir ../../data/result_videos && deactivate
 
-# CLIP (NR, semantic alignment)
+```bash
+# COVER (multi-dimensional neural)
+cd research-suite/qualifier/cover_assessment && source venv/bin/activate
+python src/cover_assessment.py --input ../../data/result_videos && deactivate
+
+# CLIP (semantic alignment)
 cd ../clip-score_assessment && source venv/bin/activate
 python src/clip_score_assessment.py --input ../../data/result_videos && deactivate
 
-# SI-TI (NR, spatial/temporal complexity)
+# SI-TI (spatial/temporal complexity)
 cd ../si-ti_assessment && source venv/bin/activate
-python src/main.py --input ../../data/result_videos --output ./results && deactivate
+python src/main.py --input ../../data/result_videos  && deactivate
 
-# TV-L1 (NR, optical flow consistency)
+# TV-L1 (optical flow consistency)
 cd ../tv-l1_assessment && source venv/bin/activate
 python src/tv-l1_assessment.py --input ../../data/result_videos && deactivate
 
-# LPIPS + SSIM (FR, perceptual similarity)
-cd ../ls_assessment && source venv/bin/activate
+# LPIPS & SSIM (perceptual similarity to reference)
+cd ../lpips-ssim_assessmentt && source venv/bin/activate
 python main.py --input-dir ../../data/result_videos --reference-dir ../../data/Input_videos && deactivate
 ```
 
-### 👥 Subjective Testing
+### 2️⃣ Collect Subjective Ratings
 ```bash
 cd ../../p910/video-player && ln -s ../../data/result_videos videos
 python3 -m http.server 8000  # → http://localhost:8000
 ```
 
-### 📊 Validation
+### 3️⃣ Validate Metrics
 ```bash
 cd ../../p1401 && source venv/bin/activate
-python src/ci95.py -i ../p910/results/ -o results/mos/mos_results.csv
+python src/ci95.py --input ../p910/results/ 
 python src/mapping.py --mos results/mos/mos_results.csv \
-  --metrics ../qualifier/*/results/*.csv --output results/p1401/
+  --metrics ../qualifier/*/results/*.csv 
 deactivate
 ```
 
