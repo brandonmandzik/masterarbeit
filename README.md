@@ -1,415 +1,272 @@
-# 🎬 Video Quality Assessment Research Project
+# 📊 Video Quality Assessment for Video Neural Style Transfer (V-NST)
 
-## 📋 Overview
+## 🎯 Overview
 
-Research platform investigating **objective metric correlation with human perception** for AI-generated videos. Implements complete pipeline: generation (Wan2.2/HunyuanVideo) → objective assessment (COVER/SI-TI/TV-L1) → subjective testing (ITU-T P.910) → validation (ITU-T P.1401).
+Validates objective quality metrics against human perception for AI-stylized videos using ITU-T methodologies. Pipeline: generate videos (Wan2.1 VACE / Wan2.2 VideoX Fun Control) → evaluate with 6 metric suites → collect human ratings (ITU-T P.910) → validate correlation (ITU-T P.1401).
 
-**Core Research Questions:**
-1. How well do objective quality metrics predict human perception for AI-generated videos?
-2. What are dominant quality failure modes in modern text-to-video models?
-3. Can multi-dimensional quality assessment improve prediction accuracy?
+**Research Questions**: 
+1. Which metrics best predict human perception? 
+2. What quality failures dominate modern TIV2V generation and stylization? 
+3. Does multi-dimensional assessment improve accuracy?
 
 ---
 
-## ✨ Features
+## ⚡ Features
 
-### 🎥 **Video Generation** (GPU-Accelerated Infrastructure)
-- **Wan2.2**: 14B parameter autoregressive transformer (T2V/I2V)
-- **HunyuanVideo**: 13B+ diffusion transformer with flow-matching (T2V/I2V)
-- Dockerized models with AWS EC2 provisioning (Terraform)
-- Supports L40S (48GB) / H100 (80GB) GPUs
+### 🎬 GPU Infrastructure & Inference
+- **Infrastructure as Code (IaC)**: Terraform-provisioned AWS EC2 (g6e.4xlarge/p5.4xlarge)
+- **High-Performance GPUs**: NVIDIA L40S (48GB) / H100 (80GB) with CUDA 12.x
+- **AI Video Models**: Wan2.1 VACE / Wan2.2 VideoX Fun Control
+- **ComfyUI Workflows**: Node-based visual programming (2 included workflows)
+- **Production Ready**: Docker containerization, 500GB SSD, SSM secure access
 
-### 📊 **Objective Quality Assessment**
-- **COVER** (CVPR 2024): Three-branch neural network (semantic + technical + aesthetic)
-- **SI/TI** (ITU-T P.910): Spatial information & temporal information metrics
-- **TV-L1**: Optical flow consistency (forward-backward error, temporal warping)
+### 🔬 Objective Metrics Suite
 
-### 👥 **Subjective Testing**
-- Web-based P.910 compliant player (ACR 5-point scale)
-- Randomized presentation, grey screen intervals
-- CSV export: participant ID, ratings, response times
+| Metric | Type | Architecture | Output |
+|--------|------|-------------|--------|
+| **COVER** | NR | CLIP ViT-L/14 + Swin3D + ConvNeXt | Semantic, technical, aesthetic, overall |
+| **CLIP** | NR | Text-video / Imagge-Vidoe / video-video embeddings | Mean/median semantic scores |
+| **SI-TI** | NR | Sobel edge + frame diff | Spatial/temporal complexity stats |
+| **LPIPS** | FR | AlexNet deep features | Perceptual distance (mean/median/std) |
+| **SSIM** | FR | Structural similarity | Luminance/contrast/structure (mean/median/std) |
+| **TV-L1** | NR | DualTVL1 optical flow | 11 temporal consistency metrics |
 
-### 📈 **Statistical Validation**
-- ITU-T P.1401 framework: polynomial mapping, Pearson/Spearman correlation
-- RMSE and epsilon-insensitive RMSE*
-- Leave-One-Out Cross-Validation (LOOCV)
+*NR=No-Reference (blind), FR=Full-Reference (requires original)*
+
+### 👥 Subjective Testing (P.910)
+- ACR 5-point scale (1=Bad, 5=Excellent)
+- Fisher-Yates randomization (order bias prevention)
+- Grey screen intervals (afterimage prevention)
+- Response time tracking per video
+
+### 📈 Statistical Validation (P.1401)
+- MOS computation (Student's t-distribution CI95)
+- 3rd-order polynomial mapping (objective → MOS scale)
+- LOOCV cross-validation (generalization testing)
+- Automated ranking (Excellent/Good/Fair/Poor categories)
+
+### 🔧 Modular Architecture
+- Self-contained tools (isolated Python 3.9 venvs)
+- Parallel execution (no inter-dependencies)
+- Standardized CSV output (`Filename` column)
+- Open and extensible framework (auto-validation)
 
 ---
 
 ## 🚀 Quick Start
 
-### **Prerequisites**
-- Python 3.9+
-- Docker 20.10+ (for generation infrastructure)
-- NVIDIA GPU with CUDA 12.1+ (for generation)
-- 200GB+ disk space (model weights)
+**Prerequisites**: Python 3.9+, 15GB disk, modern browser, CUDA GPU (recommended)
 
-### **Installation**
-
+### 1️⃣ Run Objective Metrics
 ```bash
-# Clone repository
-git clone <repo-url>
-cd project
+# COVER (multi-dimensional neural)
+cd research-suite/qualifier/cover_assessment && source venv/bin/activate
+python src/cover_assessment.py --input ../../data/result_videos && deactivate
 
-# Setup objective assessment tools
-cd research-suite/qualifier/cover_assessment
-python3 -m venv venv
-source venv/bin/activate
-./setup.sh
-pip install -r requirements.txt
-deactivate
+# CLIP (semantic alignment)
+cd ../clip-score_assessment && source venv/bin/activate
+python src/clip_score_assessment.py --input ../../data/result_videos && deactivate
 
-cd ../si-ti-assessment
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-deactivate
+# SI-TI (spatial/temporal complexity)
+cd ../si-ti_assessment && source venv/bin/activate
+python src/main.py --input ../../data/result_videos  && deactivate
 
-cd ../tv-l1_assessment
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-deactivate
+# TV-L1 (optical flow consistency)
+cd ../tv-l1_assessment && source venv/bin/activate
+python src/tv-l1_assessment.py --input ../../data/result_videos && deactivate
 
-# Setup P.1401 validation
-cd ../../p1401
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# LPIPS & SSIM (perceptual similarity to reference)
+cd ../lpips-ssim_assessmentt && source venv/bin/activate
+python main.py --input-dir ../../data/result_videos --reference-dir ../../data/Input_videos && deactivate
+```
+
+### 2️⃣ Collect Subjective Ratings
+```bash
+cd ../../p910/video-player && ln -s ../../data/result_videos videos
+python3 -m http.server 8000  # → http://localhost:8000
+```
+
+### 3️⃣ Validate Metrics
+```bash
+cd ../../p1401 && source venv/bin/activate
+python src/ci95.py --input ../p910/results/ 
+python src/mapping.py --mos results/mos/mos_results.csv \
+  --metrics ../qualifier/*/results/*.csv 
 deactivate
 ```
 
-### **Run Assessment**
+**Outputs**: `p1401_summary_enhanced.csv` (Pearson, Spearman, RMSE, RMSE*, RMSE_CV, Gap), `p1401_ranking_table.csv` (ranked metrics), 50+ PNG plots
 
-```bash
-# 1. Assess videos with COVER
-cd research-suite/qualifier/cover_assessment
-source venv/bin/activate
-python src/cover_assessment.py --input-dir ../../data/source_videos
-deactivate
+---
 
-# 2. Compute SI/TI
-cd ../si-ti-assessment
-source venv/bin/activate
-python src/main.py --input ../../data/source_videos --output ./results
-deactivate
+## 📁 Repository Structure
 
-# 3. Analyze optical flow
-cd ../tv-l1_assessment
-source venv/bin/activate
-python src/tv-l1_assessment.py --video ../../data/source_videos/video.mp4
-deactivate
-
-# 4. Launch P.910 subjective testing
-cd ../../p910/video-player
-ln -s ../../data/source_videos videos
-python3 -m http.server 8000
-# Visit http://localhost:8000
-
-# 5. Validate metrics
-cd ../../p1401
-source venv/bin/activate
-python src/ci95.py -i data/votes/ -o results/mos/mos_results.csv
-python src/mapping.py \
-  --mos results/mos/mos_results.csv \
-  --metrics cover_results.csv tv-l1_results.csv \
-  --output results/p1401/
-deactivate
 ```
-
-### **Verify Installation**
-
-```bash
-cd research-suite/qualifier/cover_assessment
-source venv/bin/activate
-python -c "import sys; sys.path.insert(0, 'src/cover_repo'); from cover.models import COVER; print('✓ COVER verified')"
-deactivate
+project/
+├─ infrastructure/                # 🎬 Video generation
+│  ├─ wan22/                      # Wan2.2 TIV2V (14B, Docker)
+│  ├─ hunyuanvideo/               # HunyuanVideo T2V/I2V
+│  └─ terraform/                  # AWS + L40S(48gb) / H100(80gb) GPU Compute Server provisioning
+│
+└─ research-suite/
+   ├─ data/
+   │  ├─ result_videos/           # source{i}_{j}.mp4 (10)
+   │  ├─ input_videos/            # original{i}.mp4 (5) (https://database.mmsp-kn.de/konvid-1k-database.html)
+   │  ├─ input_videos_24fps/      # original{i}.mp4 (5)
+   │  ├─ input_images/            # original{i}.mp4 (5) style reference images (https://www.kaggle.com/datasets/skjha69/artistic-images-for-neural-style-transfer)
+   │  └─ test_videos/             # 
+   │
+   ├─ qualifier/                  # 🔬 6 metric suites (venv/, src/, results/)
+   │  ├─ cover_assessment/        
+   │  ├─ clip-score_assessment/
+   │  ├─ si-ti_assessment/
+   │  ├─ tv-l1_assessment/
+   │  └─ lpips-ssim_assessment/ 
+   │
+   ├── p910/                       # 👥 Subjective testing
+   │   ├── video-player/           # Web UI (randomization)
+   │   └── results/                # p910_assessment_{ID}.csv
+   │
+   └── p1401/                      # 📊 Statistical validation
+       ├── src/                    # ci95.py, mapping.py
+       └── results/                # MOS, P.1401 analysis, plots
 ```
 
 ---
 
 ## 🏗️ Architecture
 
-### **System Overview**
-
-End-to-end pipeline: text prompts → AI-generated videos → objective metrics + subjective ratings → correlation analysis.
-
-**Data Flow:** Prompts → Generation (Wan2.2/Hunyuan) → Videos → Assessment (COVER/SI-TI/TV-L1) → Objective Scores + P.910 Player → Human Ratings (MOS) → P.1401 Validation → Correlation Results
-
-### **High-Level Flowchart**
-
 ```
-Text Prompts
-     |
-     v
-Video Generation (Wan2.2/HunyuanVideo)
-     |
-     v
-AI-Generated Videos (.mp4)
-     |
-     +------------------+------------------+
-     |                  |                  |
-     v                  v                  v
- COVER VQA          SI/TI Metrics     TV-L1 Flow        [Objective]
-     |                  |                  |
-     +------------------+------------------+
-                        |
-                        v
-              Objective Scores (CSV)
-                        |
-                        |
-              P.910 Web Player  <--- Human Ratings    [Subjective]
-                        |
-                        v
-              Subjective MOS (± CI95)
-                        |
-                        +------------------+
-                        |                  |
-                        v                  v
-              P.1401 Validation Framework
-                        |
-                        v
-          Correlation Analysis (RMSE/Pearson/Spearman)
+┌──────────────────────────────────────────────────────────────────────┐
+│  STYLIZED VIDEO GENERATION (Wan2.1 VACE / Wan2.2 VideoX Fun Control) │
+│  AWS p5.2xlarge (NVIDIA H100 GPI, 80GB VRAM)                         │
+└───────────────────┬──────────────────────────────────────────────────┘
+                    │
+                    │  source{i}_{j}.mp4 (10 generated)
+                    │  original{i}.mp4 (5 references)
+                    ↓
+        ┌────────┬──┴──────┬────────┬─────────┬─────────┐
+        ↓        ↓         ↓        ↓         ↓         ↓
+    ┌──────┐  ┌─────┐   ┌─────┐  ┌──────┐  ┌─────┐  ┌──────┐
+    │COVER │  │CLIP │   │SI-TI│  │LPIPS │  │SSIM │  │TV-L1 │
+    └──┬───┘  └──┬──┘   └──┬──┘  └───┬──┘  └──┬──┘  └───┬──┘
+       └─────────┴─────────┴─────────┴────────┴─────────┘
+                           ↓ Metric CSVs
+                   ┌───────┴────────┐
+                   ↓ Videos         ↓ Metrics
+             ┌──────────┐     ┌──────────┐
+             │P.910     │     │Objective │
+             │Player    │     │CSVs      │
+             └────┬─────┘     └────┬─────┘
+                  └──────┬──────────┘
+                         ↓ Ratings + Metrics
+                  ┌──────────────┐
+                  │ci95.py       │ → MOS ± CI95
+                  └──────┬───────┘
+                         ↓
+                  ┌──────────────┐
+                  │mapping.py    │ → P.1401 Validation
+                  └──────┬───────┘
+                         ↓
+               ┌─────────────────────┐
+               │Results:             │
+               │• Correlations       │
+               │• Rankings           │
+               │• Plots (50+)        │
+               └─────────────────────┘
 ```
 
-### **Low-Level Module Interactions**
+---
 
-```
-Infrastructure Layer (AWS EC2 + Docker)
-├─ Terraform ──> Provisions EC2 (g6e.4xlarge/p5.4xlarge)
-├─ wan22/ ──────> Docker: Wan2.2-T2V/I2V-A14B (126GB weights)
-└─ hunyuanvideo/> Docker: HunyuanVideo T2V/I2V (CPU offloading)
-        │
-        ▼ (Outputs: MP4 videos)
-        │
-Research Suite (Python 3.9 Virtual Environments)
-│
-├─ qualifier/
-│  ├─ cover_assessment/
-│  │  ├─ COVER Model (3 Branches)
-│  │  │  ├─ Semantic:  CLIP ViT-L/14 (512×512, 20 frames)
-│  │  │  ├─ Technical: Swin3D (32×32 patches, 40 frames)
-│  │  │  └─ Aesthetic: ConvNeXt Tiny (224×224, 40 frames)
-│  │  └─ Output: overall_score = semantic + technical + aesthetic
-│  │
-│  ├─ si-ti-assessment/
-│  │  ├─ SI: stddev(Sobel(frame)) → spatial detail
-│  │  └─ TI: stddev(Δframe) → temporal motion
-│  │
-│  └─ tv-l1_assessment/
-│     ├─ DualTVL1OpticalFlow (OpenCV)
-│     ├─ Forward-Backward Consistency Error
-│     ├─ Temporal Warp Error
-│     └─ Motion Magnitude Variance
-│
-├─ p910/ (Subjective Testing)
-│  └─ video-player/
-│     ├─ Fisher-Yates Randomization
-│     ├─ Grey Screen Intervals (2s before/after)
-│     └─ CSV Export: [ParticipantID, VideoIndex, Rating, Timestamp]
-│
-└─ p1401/ (Validation Framework)
-   ├─ ci95.py ──────> Computes MOS ± CI95 from votes
-   └─ mapping.py ───> Third-order polynomial: MOS_pred = Σ(aᵢ·xⁱ)
-                      ├─ Pearson/Spearman Correlation
-                      ├─ RMSE / RMSE* (epsilon-insensitive)
-                      └─ LOOCV (Leave-One-Out Cross-Validation)
-```
+## 🎬 Video Generation Infrastructure
 
-### **Directory Structure**
+**GPU-accelerated video generation** using AWS cloud infrastructure with Terraform provisioning. Deploy **Wan2.2** (14B params) or **HunyuanVideo** (13B params) on NVIDIA L40S (48GB) or H100 (80GB) GPUs. **ComfyUI node-based workflows** enable visual programming for text-to-video and image-to-video generation with advanced control mechanisms (Canny edge, depth maps, reference images).
 
-```
-project/
-├─ infrastructure/
-│  ├─ wan22/           # Wan2.2 Docker + generation scripts
-│  ├─ hunyuanvideo/    # HunyuanVideo Docker + generation scripts
-│  └─ terraform/       # AWS EC2 provisioning (IaC)
-│
-└─ research-suite/
-   ├─ qualifier/
-   │  ├─ cover_assessment/    # COVER VQA (3-branch NN)
-   │  ├─ si-ti-assessment/    # ITU-T P.910 SI/TI
-   │  └─ tv-l1_assessment/    # TV-L1 optical flow
-   ├─ p910/                   # Subjective testing (web player)
-   ├─ p1401/                  # Statistical validation framework
-   └─ data/
-      ├─ source_videos/       # AI-generated test videos
-      └─ tests_videos/        # Validation/test videos
-```
+### Infrastructure Specifications
+
+| Component | Specification | Purpose |
+|-----------|---------------|---------|
+| **Instance** | g6e.4xlarge / p5.4xlarge | GPU compute |
+| **GPUs** | NVIDIA L40S (48GB) / H100 (80GB) | Model inference |
+| **Storage** | 500GB GP3 SSD | Model checkpoints (126GB each) |
+| **Access** | AWS SSM (keyless) | Secure remote access |
+| **Container** | Docker + NVIDIA runtime | Isolated inference environment |
+
+### ComfyUI Workflows
+
+| Workflow | Model | Parameters | Features | Use Case |
+|----------|-------|------------|----------|----------|
+| **wan2.1-vace.json** | VACE 14B/1.3B | 27B/2.6B | LoRA optimization, reference image matching, Canny+Depth control | Production quality |
+| **wan2.2-videox-fun-control.json** | Fun Control 5B | 5B | Multi-language, edge/depth/pose/trajectory control | Experimentation |
 
 ---
 
 ## 🛠️ Technologies
 
-### **Video Generation Models**
+### 📊 P.1401 Statistical Validation
 
-| Model | Architecture | Parameters | Mechanism | Key Innovation |
-|-------|--------------|------------|-----------|----------------|
-| **Wan2.2** | Autoregressive Transformer | 14B (MoE) | Next-token prediction | Mixture-of-Experts for efficiency |
-| **HunyuanVideo** | Diffusion Transformer | 13B+ | Flow-matching diffusion | Dual-branch (text+image) conditioning |
+| Formula | Purpose | Interpretation |
+|---------|---------|----------------|
+| `MOS_pred = a₀ + a₁x + a₂x² + a₃x³` | Polynomial mapping | Captures non-linear perception |
+| `RMSE = √(Σ(MOS - MOS_pred)² / (N-1))` | Training error | < 0.3 excellent, < 0.5 good |
+| `RMSE_CV` (LOOCV) | Generalization error | Tests unseen data prediction |
+| `Gap = RMSE_CV - RMSE` | Overfitting detection | > 0.2 suggests more data needed |
 
-**Theory:** Autoregressive models predict video frame-by-frame sequentially, while diffusion models denoise latent representations through reverse diffusion process (DDPM/DDIM). DiT (Diffusion Transformer) replaces U-Net with transformer blocks for better scalability.
+**Correlation**: Pearson (linear), Spearman (rank-based)
+**RMSE\***: CI95-discounted error (only penalizes significant errors)
+**CI95**: `t(0.975, N-1) × STD / √N` (Student's t for small samples)
 
-### **Quality Assessment Methods**
+**Categories** (P.1401 Table I-1):
+- **Excellent**: RMSE_CV < 0.3 AND |r| > 0.7
+- **Good**: RMSE_CV < 0.5 AND |r| > 0.5
+- **Fair**: RMSE_CV < 0.7 AND |r| > 0.3
+- **Poor**: Otherwise
 
-#### **COVER (Comprehensive Video Quality Evaluator)**
-- **Architecture:** Three parallel branches fused via learned weights
-  - **Semantic Branch:** CLIP ViT-L/14 extracts content understanding (text-image alignment)
-  - **Technical Branch:** Swin Transformer 3D detects compression artifacts, blur, noise
-  - **Aesthetic Branch:** ConvNeXt Tiny evaluates visual appeal (composition, lighting)
-- **Output:** Unbounded regression scores (negative = below-average quality)
-- **Theory:** Multi-task learning with joint optimization (semantic loss + technical loss + aesthetic loss)
+### 🎭 P.910 Subjective Testing
+- **ACR**: Participants view video → rate 1-5 (simpler than comparison methods)
+- **Randomization**: Fisher-Yates shuffle (prevents order bias)
+- **Grey screens**: 50% grey, 2s (prevents afterimages via HVS adaptation reset)
 
-#### **SI/TI (ITU-T P.910 Classical Metrics)**
-- **SI (Spatial Information):** Measures frame detail via Sobel edge detection
-  - `SI = stddev(Sobel(Y))` where Y = ITU-R BT.601 grayscale
-- **TI (Temporal Information):** Measures motion intensity via frame differences
-  - `TI = stddev(Y_n - Y_{n-1})`
-- **Theory:** Proxy metrics for content complexity (influences perceptual quality)
+### 🎨 Quality Metrics
 
-#### **TV-L1 Optical Flow**
-- **Algorithm:** DualTVL1OpticalFlow (Total Variation + L1 norm optimization)
-- **Metrics:**
-  - Forward-backward consistency error (occlusion detection)
-  - Temporal warp error (motion prediction accuracy)
-  - Motion magnitude variance (stability)
-- **Theory:** Variational optical flow (Zach et al., 2007) balances data fidelity (L1) and smoothness (TV regularization)
-
-### **Subjective Testing (ITU-T P.910)**
-- **Method:** Absolute Category Rating (ACR) with 5-point scale
-- **Protocol:**
-  - Grey screen intervals (50% grey, 2 seconds) prevent afterimage bias
-  - Fisher-Yates randomization eliminates order effects
-  - Minimum 24 participants per video (ITU-T recommendation)
-- **Output:** Mean Opinion Score (MOS) ± 95% Confidence Interval
-
-### **Validation Framework (ITU-T P.1401)**
-- **Mapping Function:** Third-order polynomial regression
-  - `MOS_predicted = a₀ + a₁·x + a₂·x² + a₃·x³`
-  - Fitted via least squares (objective scores → subjective MOS)
-- **Metrics:**
-  - **Pearson Correlation:** Linear relationship strength
-  - **Spearman Correlation:** Monotonic relationship (rank-based)
-  - **RMSE:** Root mean square error
-  - **RMSE*:** Epsilon-insensitive RMSE (ignores errors within CI95)
-- **Validation:** LOOCV (Leave-One-Out Cross-Validation) for small datasets
-
-### **Infrastructure**
-
-| Technology | Purpose | Key Features |
-|-----------|---------|--------------|
-| **Docker** | Model containerization | GPU passthrough, reproducible builds |
-| **Terraform** | Infrastructure as Code | AWS EC2 provisioning, state management |
-| **PyTorch** | Deep learning framework | CUDA acceleration, mixed precision |
-| **NVIDIA CUDA** | GPU compute | cuDNN (deep learning kernels), Tensor Cores |
-| **AWS EC2** | Cloud GPU instances | g6e.4xlarge (L40S), p5.4xlarge (H100) |
-
-**Theory:**
-- **CUDA:** Parallel computing architecture for massive matrix operations (convolutions, attention)
-- **Tensor Cores:** Specialized units for mixed-precision (FP16/BF16) matrix multiplication (4×faster than FP32)
-- **CPU Offloading:** Swap inactive model layers to RAM to fit large models on smaller GPUs
+**COVER** (CVPR 2024): 3-branch ensemble. CLIP ViT-L/14 (semantic, 20f) + Swin3D (technical, 40f) + ConvNeXt (aesthetic, 40f). Unbounded scores (negative normal)
+**CLIP**: `cosine_similarity(CLIP_text(prompt), CLIP_image(frame))`. Text-Video / Image-Video / Video-Video semantic alignment. Limitation: frame-wise interpretation, no motion understanding. 
+**SI-TI** (ITU-T P.910): `SI = stddev(Sobel(Y))`, `TI = stddev(Y_n - Y_{n-1})` where `Y = 0.299R + 0.587G + 0.114B`. Scene complexity/motion. 
+**LPIPS**: AlexNet features + learned weights. Range [0,∞), lower = similar. Trained on human perceptual judgments. Frame-by-frame vs reference. 
+**SSIM**: `SSIM = l(x,y) × c(x,y) × s(x,y)` (luminance × contrast × structure). Range [0,1], 1 = identical. HVS-aligned structural similarity. 
+**TV-L1**: DualTVL1 optical flow (Total Variation + L1 norm). Metrics: forward-backward error, warp error, motion magnitude, Q-transforms `exp(-α × error)`. Detects temporal drift/jitter. 
 
 ---
 
-## 📚 Foundation Knowledge
+## 📚 Prerequisites
 
-### **Required Prior Knowledge**
-
-#### **1. Deep Learning Fundamentals**
-- **Transformers:** Self-attention mechanism, multi-head attention, positional encoding
-- **Convolutional Networks:** 2D/3D convolutions, receptive fields, feature pyramids
-- **Vision-Language Models:** Contrastive learning (CLIP), cross-modal alignment
-
-#### **2. Video Processing**
-- **Temporal Sampling:** Uniform frame extraction, sliding windows
-- **Optical Flow:** Dense motion estimation (variational methods vs. CNN-based)
-- **Color Spaces:** YUV/YCbCr conversion (ITU-R BT.601 standard)
-
-#### **3. Generative Models**
-- **Diffusion Models:** Forward noising process (Gaussian noise addition), reverse denoising (learned through U-Net/DiT)
-  - DDPM: Markov chain with fixed variance schedule
-  - DDIM: Deterministic sampling (fewer steps)
-  - Latent Diffusion: Operate in VAE latent space (reduced computation)
-- **Autoregressive Models:** Next-token prediction with causal masking
-- **Mixture-of-Experts (MoE):** Sparse activation (route inputs to subset of expert networks)
-
-#### **4. Quality Assessment Theory**
-- **Full-Reference (FR):** Requires pristine reference (PSNR, SSIM)
-- **No-Reference (NR):** Blind quality prediction (COVER, BRISQUE)
-- **Perceptual Metrics:** Align with human visual system (LPIPS, VMAF)
-
-#### **5. Statistical Validation**
-- **Correlation Analysis:** Linear (Pearson) vs. monotonic (Spearman)
-- **Regression:** Polynomial fitting, overfitting (regularization)
-- **Cross-Validation:** Train-test splitting (LOOCV for N < 50 samples)
-- **Confidence Intervals:** Student's t-distribution (95% CI)
-
-#### **6. ITU-T Standards**
-- **P.910:** Subjective video quality (ACR, grey screen protocol)
-- **P.1401:** Objective metric validation (RMSE*, outlier ratio)
-
-#### **7. Infrastructure & DevOps**
-- **Docker:** Container networking, volume mounts, GPU runtime
-- **Terraform:** Declarative infrastructure, state management, providers
-- **AWS:** EC2 lifecycle, IAM roles, security groups, SSM sessions
-- **CUDA/cuDNN:** Memory management, kernel optimization
+**Statistics**: Hypothesis testing, regression, correlation (Pearson/Spearman), cross-validation, overfitting detection
+**Computer Vision**: CNNs, Vision Transformers, optical flow, image quality metrics, deep features
+**Video Processing**: Frame extraction, temporal consistency, spatial vs temporal quality, compression artifacts
+**Machine Learning**: Transfer learning, ensemble methods, no-reference assessment
 
 ---
+
 
 ## 🔗 References
 
-### **Video Generation Models**
-- [Wan2.2 GitHub](https://github.com/Wan-Video/Wan2.2)
-- [Wan2.2 Technical Paper](https://arxiv.org/pdf/2503.20314) (Autoregressive Transformer)
-- [Wan2.2 T2V Model (HF)](https://huggingface.co/Wan-AI/Wan2.2-T2V-A14B)
-- [Wan2.2 I2V Model (HF)](https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B)
-- [HunyuanVideo T2V GitHub](https://github.com/Tencent-Hunyuan/HunyuanVideo)
-- [HunyuanVideo I2V GitHub](https://github.com/Tencent-Hunyuan/HunyuanVideo-I2V)
-- [HunyuanVideo Paper](https://arxiv.org/abs/2412.03603) (Diffusion Transformer)
-- [HunyuanVideo Model (HF)](https://huggingface.co/tencent/HunyuanVideo)
+**Standards**:
+- [ITU-T P.910 (10/2023)](https://www.itu.int/rec/T-REC-P.910-202310-I/en) - Subjective video quality (ACR, grey screens)
+- [ITU-T P.1401 (01/2020)](https://www.itu.int/rec/T-REC-P.1401-202001-I) - Metric validation (polynomial mapping, LOOCV)
 
-### **Quality Assessment**
-- [COVER Paper (CVPR 2024)](https://openaccess.thecvf.com/content/CVPR2024W/AI4Streaming/papers/He_COVER_A_Comprehensive_Video_Quality_Evaluator_CVPRW_2024_paper.pdf)
-- [COVER GitHub](https://github.com/taco-group/COVER)
-- [COVER HuggingFace Demo](https://huggingface.co/spaces/vztu/COVER)
-- [COVER Model Weights](https://github.com/vztu/COVER/blob/release/Model/COVER.pth)
-- [ITU-T P.910 (10/2023)](https://www.itu.int/rec/T-REC-P.910-202310-I/en) - Subjective Video Quality
-- [ITU-T P.1401 (01/2020)](https://www.itu.int/rec/T-REC-P.1401-202001-I) - Objective Metric Validation
-- [DualTVL1 Optical Flow (OpenCV)](https://docs.opencv.org/3.4/dc/d47/classcv_1_1DualTVL1OpticalFlow.html)
-- [TV-L1 Optical Flow Paper](https://www.ipol.im/pub/art/2013/26/article.pdf) (Zach et al., 2007)
+**Metrics**:
+- [COVER (CVPR 2024)](https://openaccess.thecvf.com/content/CVPR2024W/AI4Streaming/papers/He_COVER_A_Comprehensive_Video_Quality_Evaluator_CVPRW_2024_paper.pdf)
+- [CLIPScore (EMNLP 2021)](https://arxiv.org/abs/2104.08718)
+- [LPIPS (CVPR 2018)](https://arxiv.org/abs/1801.03924)
+- [SSIM (IEEE TIP 2004)](https://ieeexplore.ieee.org/document/1284395)
+- [TV-L1 (IPOL 2013)](https://www.ipol.im/pub/art/2013/26/article.pdf)
 
-### **Diffusion Model Theory**
-- [DDPM (2020)](https://arxiv.org/abs/2006.11239) - Denoising Diffusion Probabilistic Models
-- [DDIM (2020)](https://arxiv.org/abs/2010.02502) - Denoising Diffusion Implicit Models
-- [Latent Diffusion Models (2021)](https://arxiv.org/abs/2112.10752) - High-Resolution Image Synthesis
-- [DiT (2022)](https://arxiv.org/abs/2212.09748) - Scalable Diffusion Transformers
-
-### **Infrastructure & Frameworks**
-- [AWS DL AMI Release Notes](https://aws.amazon.com/releasenotes/aws-deep-learning-base-oss-nvidia-driver-gpu-ami-ubuntu-22-04/)
-- [AWS EC2 GPU Instances](https://aws.amazon.com/ec2/instance-types/#Accelerated_Computing)
-- [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
-- [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- [Terraform Language Reference](https://developer.hashicorp.com/terraform/language)
-- [Terraform Best Practices](https://www.terraform-best-practices.com/)
-- [Docker GPU Support](https://docs.docker.com/compose/how-tos/gpu-support/)
-- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/)
-- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
-
-### **Machine Learning Frameworks**
-- [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
-- [PyTorch CUDA Semantics](https://pytorch.org/docs/stable/notes/cuda.html)
-- [PyTorch Performance Tuning](https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html)
-- [HuggingFace Transformers](https://huggingface.co/docs/transformers/index)
-- [HuggingFace Hub Library](https://huggingface.co/docs/huggingface_hub/index)
-- [Flash Attention](https://github.com/Dao-AILab/flash-attention)
-
-### **NVIDIA Hardware & CUDA**
-- [NVIDIA L40S Datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/design-visualization/productspage/quadro/quadro-desktop/proviz-print-nvidia-l40s-datasheet-3230170-r1-web.pdf)
-- [NVIDIA H100 Whitepaper](https://resources.nvidia.com/en-us-tensor-core)
-- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/)
-- [cuDNN Developer Guide](https://docs.nvidia.com/deeplearning/cudnn/developer-guide/index.html)
+**Models**:
+- [Wan2.2 Base](https://arxiv.org/pdf/2503.20314) | [GH](https://github.com/Wan-Video/Wan2.2)
+- [Wan2.2 VideoX Fun Control](https://arxiv.org/abs/2408.06072) | [HF](https://huggingface.co/alibaba-pai/Wan2.2-Fun-A14B-Control)
+- [Wan2.1 VACE](http://arxiv.org/abs/2503.07598) | [HF](https://huggingface.co/Wan-AI/Wan2.1-VACE-14B)
+- [HunyuanVideo Base](https://arxiv.org/abs/2412.03603) | [GH](https://github.com/Tencent-Hunyuan/HunyuanVideo)
 
 ---
 
-**License:** Research project for academic purposes only.
-**Contact:** See `CLAUDE.md` for detailed development instructions.
+**Development Guide**: See `CLAUDE.md` for commands, troubleshooting, implementation details

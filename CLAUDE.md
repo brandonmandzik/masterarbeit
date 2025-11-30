@@ -1,290 +1,296 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Developer guide for Video Quality Assessment Research. Evaluates AI videos via 6 objective metrics (COVER, CLIP, SI-TI, LPIPS, SSIM, TV-L1), P.910 subjective testing, P.1401 validation.
 
-## Project Overview
+---
 
-This is a **Video Quality Assessment Research Project** for evaluating AI-generated videos using objective metrics and subjective testing. The project implements a complete pipeline from video generation through quality assessment to statistical validation following ITU-T standards.
-
-### Key Research Questions
-1. How well do objective quality metrics predict human perception for AI-generated videos?
-2. What are the dominant quality failure modes in modern text-to-video models?
-3. Can multi-dimensional quality assessment improve prediction accuracy?
-
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 project/
-├── infrastructure/          # GPU-accelerated video generation
-│   ├── wan22/              # Wan2.2 T2V model (14B params, Docker)
-│   ├── hunyuanvideo/       # HunyuanVideo T2V/I2V (Docker)
-│   └── terraform/          # AWS infrastructure as code
+├─ infrastructure/                # 🎬 Video generation
+│  ├─ wan22/                      # Wan2.2 TIV2V (14B, Docker)
+│  ├─ hunyuanvideo/               # HunyuanVideo T2V/I2V
+│  └─ terraform/                  # AWS + L40S(48gb) / H100(80gb) GPU Compute Server provisioning
 │
-└── research-suite/         # Quality assessment tools
-    ├── qualifier/          # Objective quality metrics
-    │   ├── cover_assessment/    # COVER (semantic+technical+aesthetic)
-    │   ├── si-ti-assessment/    # ITU-T P.910 SI/TI metrics
-    │   └── tv-l1_assessment/    # TV-L1 optical flow
-    ├── p910/               # ITU-T P.910 subjective testing (web player)
-    ├── p1401/              # ITU-T P.1401 validation framework
-    └── data/               # Video datasets
-        ├── source_videos/  # AI-generated test videos
-        └── tests_videos/   # Test/validation videos
+└─ research-suite/
+   ├─ data/
+   │  ├─ result_videos/           # source{i}_{j}.mp4 (10)
+   │  ├─ input_videos/            # original{i}.mp4 (5) (https://database.mmsp-kn.de/konvid-1k-database.html)
+   │  ├─ input_videos_24fps/      # original{i}.mp4 (5)
+   │  ├─ input_images/            # original{i}.mp4 (5) style reference images (https://www.kaggle.com/datasets/skjha69/artistic-images-for-neural-style-transfer)
+   │  └─ test_videos/             # 
+   │
+   ├─ qualifier/                  # 🔬 6 metric suites (venv/, src/, results/)
+   │  ├─ cover_assessment/        
+   │  ├─ clip-score_assessment/
+   │  ├─ si-ti_assessment/
+   │  ├─ tv-l1_assessment/
+   │  └─ lpips-ssim_assessment/ 
+   │
+   ├─ p910/video-player/          # 👥 Web UI
+   └─ p1401/src/                  # 📊 ci95.py, mapping.py
 ```
 
-## Common Development Commands
+---
 
-### Infrastructure (Video Generation)
+## ⚡ Quick Commands
 
-**AWS Deployment:**
+### 🔬 Objective Metrics
 ```bash
-cd infrastructure/terraform
-terraform init
-terraform plan
-terraform apply
+# COVER (NR, multi-dimensional neural)
+cd research-suite/qualifier/cover_assessment && source venv/bin/activate
+python src/cover_assessment.py --input-dir ../../data/result_videos && deactivate
+
+# CLIP (NR, semantic alignment)
+cd ../clip-score_assessment && source venv/bin/activate
+python src/clip_score_assessment.py --input ../../data/result_videos && deactivate
+
+# SI-TI (NR, spatial/temporal complexity)
+cd ../si-ti_assessment && source venv/bin/activate
+python src/main.py --input ../../data/result_videos --output ./results && deactivate
+
+# TV-L1 (NR, optical flow consistency)
+cd ../tv-l1_assessment && source venv/bin/activate
+python src/tv-l1_assessment.py --input ../../data/result_videos && deactivate
+
+# LPIPS + SSIM (FR, perceptual similarity)
+cd ../ls_assessment && source venv/bin/activate
+python main.py --input-dir ../../data/result_videos --reference-dir ../../data/Input_videos && deactivate
 ```
 
-**Connect to GPU instance:**
+### 👥 Subjective Testing
 ```bash
-# Connection command output by terraform
-# Example: aws ssm start-session --target <instance-id>
+cd ../../p910/video-player && ln -s ../../data/result_videos videos
+python3 -m http.server 8000  # → http://localhost:8000
 ```
 
-**Wan2.2 Container:**
+### 📊 Validation
 ```bash
-cd infrastructure/wan22
-./run.sh                     # Start Docker daemon
-docker attach wan22-inference
-./download_model.sh          # Download model weights (126GB)
-cd wan2.2
-python3 generate.py --task t2v-A14B --size 1280*720 \
-  --ckpt_dir /workspace/wan2.2/checkpoints/Wan2.2-T2V-A14B \
-  --prompt "Your video description"
-```
-
-**HunyuanVideo Container:**
-```bash
-cd infrastructure/hunyuanvideo
-./run-t2v.sh
-docker attach hunyuanvideo
-cd HunyuanVideo
-python3 sample_video.py --video-size 720 1280 --video-length 129 \
-  --prompt "Your description" --use-cpu-offload
-```
-
-### Research Suite (Quality Assessment)
-
-**COVER Assessment:**
-```bash
-cd research-suite/qualifier/cover_assessment
-source venv/bin/activate
-python src/cover_assessment.py --input-dir ../../data/source_videos
+cd ../../p1401 && source venv/bin/activate
+python src/ci95.py -i ../p910/results/ -o results/mos/mos_results.csv
+python src/mapping.py --mos results/mos/mos_results.csv \
+  --metrics ../qualifier/*/results/*.csv --output results/p1401/
 deactivate
 ```
 
-**SI/TI Assessment:**
-```bash
-cd research-suite/qualifier/si-ti-assessment
-source venv/bin/activate
-python src/main.py --input ../../data/source_videos --output ./results
-deactivate
+---
+
+## 🎨 Qualifier Modules
+
+| Metric | Type | Output | Use Case |
+|--------|------|--------|----------|
+| **COVER** | NR | semantic, technical, aesthetic, overall | Multi-dimensional quality |
+| **CLIP** | NR | mean/median semantic scores | Prompt adherence |
+| **SI-TI** | NR | SI/TI mean/std/max | Scene complexity |
+| **LPIPS** | FR | mean/median/std/min/max perceptual distance | Similarity to reference |
+| **SSIM** | FR | mean/median/std/min/max structural similarity | Similarity to reference |
+| **TV-L1** | NR | 11 temporal metrics (fb_error, warp_error, Q_*) | Temporal coherence |
+
+*NR=No-Reference, FR=Full-Reference*
+
+### COVER
+3-branch neural (CLIP ViT-L/14 + Swin3D + ConvNeXt). Unbounded scores (negative normal). GPU ~30s/video.
+```csv
+Filename,semantic_score,technical_score,aesthetic_score,overall_score
+source1_1.mp4,-1.234,0.567,-0.789,-0.452
 ```
 
-**TV-L1 Optical Flow:**
-```bash
-cd research-suite/qualifier/tv-l1_assessment
-source venv/bin/activate
-python src/tv-l1_assessment.py --video ../../data/source_videos/video.mp4
-deactivate
+### CLIP
+Text-video embedding similarity. `cosine_similarity(CLIP_text(prompt), CLIP_image(frame))`. GPU ~10s/video.
+```csv
+Filename,clip_mean,clip_median
+source1_1.mp4,0.76,0.78
 ```
 
-**P.910 Subjective Testing (Web Server):**
+### SI-TI
+Classical spatial/temporal metrics. `SI = stddev(Sobel(Y))`, `TI = stddev(Y_n - Y_{n-1})`. CPU ~5s/video.
+```json
+{"source1_1.mp4": {"SI_mean": 45.67, "TI_mean": 23.45, ...}}
+```
+
+### LPIPS
+AlexNet deep features + learned weights. Range [0,∞), lower = similar. GPU ~20s/video.
+```csv
+Filename,LPIPS_mean,LPIPS_median,LPIPS_std,LPIPS_min,LPIPS_max
+source1_1.mp4,0.234,0.231,0.045,0.189,0.312
+```
+
+### SSIM
+Structural similarity (luminance × contrast × structure). Range [0,1], 1 = identical. CPU ~3s/video.
+```csv
+Filename,SSIM_mean,SSIM_median,SSIM_std,SSIM_min,SSIM_max
+source1_1.mp4,0.876,0.882,0.034,0.812,0.934
+```
+
+### TV-L1
+DualTVL1 optical flow. 11 metrics: fb_error, warp_error, motion_magnitude, Q_fb, Q_warp, etc. GPU ~15s/video.
+```csv
+Filename,fb_error,warp_error,motion_magnitude,Q_fb,Q_warp,...
+source1_1.mp4,2.34,1.56,12.3,0.876,0.912,...
+```
+
+**LPIPS+SSIM pairing**: `source{i}_{j} → original{j}` (10 pairs)
+**Optional args**: `--image-size 256`, `--frame-stride 2`, `--max-frames 100`, `--cpu`
+
+---
+
+## 🎭 P.910 Subjective Testing
+
+**Setup**:
 ```bash
 cd research-suite/p910/video-player
-ln -s ../../data/source_videos videos  # Only first time
+ln -s ../../data/result_videos videos
 python3 -m http.server 8000
-# Visit http://localhost:8000
 ```
 
-**P.1401 Statistical Validation:**
+**Compliance**:
+- ACR 5-point: 1=Bad, 2=Poor, 3=Fair, 4=Good, 5=Excellent
+- Randomization: Fisher-Yates (app.js:226-233)
+- Grey screens: 50% grey, 2s (#808080)
+- Test video: Mandatory training
+
+**Config** (`config.json`):
+```json
+{
+  "greyScreenDuration": 2000,
+  "testVideo": {"enabled": true, "filename": "test.mp4"},
+  "export": {"filenamePattern": "p910_assessment_{participantId}.csv"}
+}
+```
+
+**Output**:
+```csv
+ParticipantID,VideoIndex,Filename,Rating,Timestamp,ResponseTime_seconds
+alice,0,source1_3.mp4,4,2024-11-30T10:15:23Z,3.2
+```
+
+---
+
+## 📊 P.1401 Statistical Validation
+
+### MOS Computation (ci95.py)
 ```bash
-cd research-suite/p1401
-source venv/bin/activate
+python src/ci95.py -i ../p910/results/ -o results/mos/mos_results.csv
+```
+`MOS = mean(ratings)`, `CI95 = t(0.975, N-1) × STD / √N`
 
-# Step 1: Compute MOS from votes
-python src/ci95.py -i data/votes/ -o results/mos/mos_results.csv
-
-# Step 2: Evaluate metrics against MOS
-python src/mapping.py \
-  --mos results/mos/mos_results.csv \
-  --metrics cover_results.csv tv-l1_results.csv \
-  --output results/p1401/
-
-deactivate
+**Output**:
+```csv
+Filename,MOS,STD,N,CI95
+source1_1.mp4,3.45,0.87,13,0.53
 ```
 
-## Architecture Notes
-
-### Video Generation Pipeline
-- **Wan2.2**: Autoregressive transformer (14B params, MoE), CPU offloading required
-- **HunyuanVideo**: Diffusion transformer (13B+ params), supports flow-matching
-- Both models require L40S (48GB) or H100 (80GB) GPUs
-- Docker containers bake models and dependencies for reproducibility
-- Terraform provisions AWS EC2 g6e.4xlarge or p5.4xlarge instances
-
-### Quality Assessment Architecture
-
-**COVER (Three-Branch Neural Network):**
-- **Semantic Branch**: CLIP ViT-L/14 (512×512, 20 frames) → content understanding
-- **Technical Branch**: Swin Transformer 3D (7×7 grid, 32×32 patches, 40 frames) → compression artifacts
-- **Aesthetic Branch**: ConvNeXt Tiny (224×224, 40 frames) → visual appeal
-- Overall score = semantic + technical + aesthetic (unbounded regression values)
-- Model: `pretrained_weights/COVER.pth` (250MB, from official CVPR 2024 release)
-
-**SI/TI (ITU-T P.910 Classical Metrics):**
-- **SI**: stddev(Sobel(frame)) → spatial complexity/detail
-- **TI**: stddev(frame_n - frame_{n-1}) → temporal activity/motion
-- Uses ITU-R BT.601 grayscale conversion: `Y = 0.299*R + 0.587*G + 0.114*B`
-
-**TV-L1 Optical Flow (Temporal Consistency):**
-- Forward-backward consistency error
-- Temporal warp error
-- Motion magnitude variance
-- Quality scores transformed via exponential decay: Q = exp(-alpha * error)
-
-**P.910 Subjective Testing:**
-- Web-based video player with ACR 5-point scale (1=Bad, 5=Excellent)
-- Fisher-Yates randomization to prevent order bias
-- Grey screen intervals (50% grey, 2s before/after) per ITU-T standard
-- CSV export: ParticipantID, VideoIndex, Filename, Rating, Timestamp, ResponseTime
-
-**P.1401 Validation Framework:**
-- Third-order polynomial mapping: `MOS_predicted = a₀ + a₁x + a₂x² + a₃x³`
-- Pearson/Spearman correlation coefficients
-- RMSE and epsilon-insensitive RMSE* (discounts errors within CI95)
-- Leave-One-Out Cross-Validation (LOOCV) for small datasets
-
-## Important Implementation Details
-
-### COVER Score Interpretation
-- **Scores are unbounded regression values** (not percentages or probabilities)
-- Negative scores are normal (indicate below-average quality)
-- **Relative ranking** matters, not absolute values
-- Example: semantic=-0.06, technical=0.87, aesthetic=0.35 → overall=1.16
-- Compare within dataset, not across datasets
-
-### Temporal Sampling
-- COVER analyzes **entire video duration**, not snippets
-- Semantic: 20 frames uniformly sampled across full timeline
-- Technical/Aesthetic: 40 frames uniformly sampled
-- Uses `UnifiedFrameSampler` with temporal fragments
-
-### Virtual Environments
-Each assessment tool has its own isolated Python 3.9 venv:
-- `research-suite/qualifier/cover_assessment/venv/`
-- `research-suite/qualifier/si-ti-assessment/venv/`
-- `research-suite/qualifier/tv-l1_assessment/venv/`
-- `research-suite/p1401/venv/`
-
-**Always activate before running:**
+### Metric Validation (mapping.py)
 ```bash
-source venv/bin/activate  # Run commands
-deactivate                # Exit venv
+python src/mapping.py --mos mos_results.csv --metrics *.csv --output results/p1401/
 ```
 
-### ARM64 Compatibility (macOS Apple Silicon)
-- COVER uses PyAV wrapper instead of decord for cross-platform video reading
-- Wrapper located in: `research-suite/qualifier/cover_assessment/src/cover_assessment.py`
-- Maintains 100% compatibility with official COVER implementation
+**Process** (per metric):
+1. Load MOS + CI95, merge metrics on `Filename`
+2. Fit 3rd-order polynomial: `MOS_pred = a₀ + a₁x + a₂x² + a₃x³`
+3. Pearson (r), Spearman (ρ)
+4. RMSE, RMSE* (CI95-discounted)
+5. LOOCV → RMSE_CV
+6. Gap = RMSE_CV - RMSE
+7. Categorize (Excellent/Good/Fair/Poor)
+8. Generate plots
 
-### Infrastructure State Management
-- Terraform state files track AWS resource lifecycle
-- **Never manually modify resources** created by Terraform
-- Use `terraform destroy` to clean up (avoid orphaned resources)
-- State files: `infrastructure/terraform/terraform.tfstate`
+**Outputs**:
+- `p1401_summary_enhanced.csv`: All metrics × validation stats
+- `p1401_ranking_table.csv`: Ranked by performance
+- `{metric}_p1401.png`: 50+ scatter plots
 
-## Data Flow Workflow
+**Performance Categories**:
 
-1. **Generation Phase**: Generate AI videos from text prompts using Wan2.2/HunyuanVideo
-2. **Qualification Phase**: Compute objective metrics (COVER, SI/TI, TV-L1) on generated videos
-3. **Subjective Testing**: Collect human ratings via P.910 web interface (min 24 subjects/video)
-4. **Validation Phase**: Correlate objective metrics with subjective MOS using P.1401 framework
+| Category | Criteria | Interpretation |
+|----------|----------|----------------|
+| Excellent | RMSE_CV < 0.3 AND \|r\| > 0.7 | Outstanding |
+| Good | RMSE_CV < 0.5 AND \|r\| > 0.5 | Reliable |
+| Fair | RMSE_CV < 0.7 AND \|r\| > 0.3 | Moderate |
+| Poor | Otherwise | Weak |
 
-## Critical Security Notes
+---
 
-- **Never commit** `.env` files (AWS credentials, API keys)
-- **Never commit** Terraform state files with production credentials
-- AWS credentials managed via IAM roles and SSM session manager (no SSH keys)
-- GPU instances should have egress-only security groups
+## 🔧 Troubleshooting
 
-## Testing and Validation
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Videos not loading (P910) | Missing symlink | `ln -s ../../data/result_videos videos` |
+| RMSE_CV >> RMSE | Overfitting (N < 20) | Collect more data |
+| COVER negative scores | Normal (unbounded) | Use relative ranking |
+| "No module 'X'" | Wrong venv | `source venv/bin/activate` in tool dir |
+| CUDA OOM | Insufficient VRAM | Use `--cpu` flag |
+| LPIPS/SSIM mismatch | Wrong pairing | Verify `source{i}_{j} → original{j}` |
+| mapping.py merge error | Filename mismatch | Ensure all CSVs have `Filename` column |
 
-### Test Videos Location
-- `research-suite/data/tests_videos/` contains validation videos:
-  - `test_real.mp4`: Real-world footage
-  - `mov_circle.mp4`, `mov_circle+noise.mp4`: Synthetic motion tests
-  - `static_scale.mp4`, `static_solidgrey.mp4`: Static tests
+---
 
-### Verification Commands
+## 📐 Implementation Notes
+
+**Virtual Environments**: Isolated per tool (Python 3.9). Always activate: `cd {tool} && source venv/bin/activate`
+
+**Data Locations**:
+- Generated: `research-suite/data/result_videos/` (10 videos)
+- References: `research-suite/data/Input_videos/` (5 originals)
+
+**P.1401 LOOCV**: Leave-one-out cross-validation. Train N-1, test 1, repeat N times. Tests generalization.
+
+**RMSE\* Denominator**: (N-4) accounts for 4 polynomial coefficients. Degrees of freedom = N - k.
+
+**Metric Standardization**: All CSVs must have `Filename` column + numeric metric columns + header row.
+
+---
+
+## 📚 Key Formulas
+
+### Statistical Validation
+```
+MOS_pred = a₀ + a₁x + a₂x² + a₃x³
+RMSE = √(Σ(MOS - MOS_pred)² / (N-1))
+RMSE* = √(Σ max(|MOS - MOS_pred| - CI95, 0)² / (N-4))
+CI95 = t(0.975, N-1) × STD / √N
+```
+
+### Quality Metrics
+```
+COVER: Multi-branch regression (CLIP + Swin3D + ConvNeXt)
+CLIP: cosine_similarity(text_emb, frame_emb)
+SI: stddev(Sobel(Y)) where Y = 0.299R + 0.587G + 0.114B
+TI: stddev(Y_n - Y_{n-1})
+LPIPS: weighted L2(AlexNet(x), AlexNet(y))
+SSIM: l(x,y) × c(x,y) × s(x,y)
+TV-L1: Q = exp(-α × error)
+```
+
+---
+
+## 🚀 Quick Reference
+
+### Venv Activation
 ```bash
-# Verify COVER installation
-cd research-suite/qualifier/cover_assessment
-source venv/bin/activate
-python -c "import sys; sys.path.insert(0, 'src/cover_repo'); from cover.models import COVER; print('✓ COVER verified')"
-
-# Verify GPU availability (on cloud instance)
-nvidia-smi
-
-# Verify Docker GPU access
-docker run --rm --gpus all nvidia/cuda:12.1-base nvidia-smi
+cd research-suite/qualifier/cover_assessment && source venv/bin/activate
+cd research-suite/qualifier/clip-score_assessment && source venv/bin/activate
+cd research-suite/qualifier/si-ti_assessment && source venv/bin/activate
+cd research-suite/qualifier/tv-l1_assessment && source venv/bin/activate
+cd research-suite/qualifier/ls_assessment && source venv/bin/activate
+cd research-suite/p1401 && source venv/bin/activate
 ```
 
-## Common Issues and Solutions
+### Output Locations
+```
+research-suite/qualifier/cover_assessment/results/cover_results.csv
+research-suite/qualifier/clip-score_assessment/results/clip_score_results.csv
+research-suite/qualifier/si-ti_assessment/results/si_ti_results.csv
+research-suite/qualifier/tv-l1_assessment/results/tv_l1_results.csv
+research-suite/qualifier/ls_assessment/lpips_ssim_results.csv
+research-suite/p910/results/p910_assessment_{ID}.csv
+research-suite/p1401/results/mos/mos_results.csv
+research-suite/p1401/results/p1401_summary_enhanced.csv
+research-suite/p1401/results/p1401_ranking_table.csv
+research-suite/p1401/results/{metric}_p1401.png
+```
 
-### COVER Issues
-- **"No module named 'cover'"**: Activate venv and ensure `cover_repo` is in Python path
-- **Negative scores**: Normal behavior for unbounded regression (not an error)
-- **Slow on CPU**: Expected, use GPU for production (CPU: ~10-15s/video, GPU: ~80ms/video)
+---
 
-### Infrastructure Issues
-- **Terraform apply fails**: Check AWS credentials, verify region availability for GPU instances
-- **Docker container won't start**: Verify NVIDIA Container Toolkit installed, check GPU passthrough
-- **Model download fails**: Network timeout, large files (126GB for Wan2.2), retry or use wget
-
-### Assessment Issues
-- **Video format not supported**: Re-encode to H.264 MP4: `ffmpeg -i input.* -c:v libx264 -crf 18 output.mp4`
-- **SI/TI plots missing**: Check Matplotlib backend, verify `--no-plots` flag not set
-- **P.910 web player stuck**: Check browser console, verify videos/ symlink exists
-
-## File Naming Conventions
-
-- Video files: `source{source_id}_{video_id}.mp4` (e.g., `source1_1.mp4`, `source2_3.mp4`)
-- Results CSVs: `<video_name>_si_ti.csv`, `p910_assessment_{participant_id}.csv`
-- Model weights: `pretrained_weights/COVER.pth`, checkpoints in Docker volumes
-
-## Performance Benchmarks
-
-**COVER Inference:**
-- NVIDIA A100: 79.37ms per video (4K, 30 frames)
-- Apple M1/M2 CPU: ~8-12 seconds per 720p video
-
-**Model Requirements:**
-- Wan2.2 peak VRAM: ~60GB (standard), ~40GB (with offloading)
-- HunyuanVideo peak VRAM: ~40GB (with CPU offloading)
-
-## References
-
-- ITU-T P.910 (10/2023): Subjective video quality assessment
-- ITU-T P.1401 (01/2020): Objective metric validation methodology
-- COVER paper: He et al., CVPR 2024 (AIS Workshop Winner)
-- Wan2.2: https://github.com/Wan-Video/Wan2.2
-- HunyuanVideo: https://github.com/Tencent-Hunyuan/HunyuanVideo
-
-## Notes for Claude Code
-
-- Each qualifier tool is self-contained with its own venv and dependencies
-- Docker containers use bind mounts for `/opt/outputs` (persistent storage)
-- COVER implementation verified against official repository (100% identical architecture)
-- P.1401 RMSE* denominator: (N-4) for third-order polynomial degrees of freedom
-- Terraform user_data.sh bootstraps GPU drivers and Docker runtime
-- All objective metrics output to `research-suite/qualifier/*/results/`
+**Research Guide**: See `README.md` for theory, background, references
